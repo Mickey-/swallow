@@ -1,0 +1,122 @@
+.right-sidebar{
+    position: absolute;
+    z-index: 9999;
+    top: 71px;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    overflow: auto;
+    background-color: #fff;
+    border-left: 1px solid #eee;
+}
+.option-group{
+    border-bottom: 10px solid #f8f7f6;
+}
+.option-caption{
+    height: 40px;
+    margin: 0 0 10px 0;
+    padding: 0 20px;
+    color: #666;
+    line-height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+}
+.group-line{
+    height: 1px;
+    margin: 0 -20px 10px -20px;
+    background-color: #eee;
+    clear: both;
+}
+.option-body{
+    padding: 0 20px;
+}
+.opiton-label{
+    display: block;
+    height: 20px;
+    color: #888;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 20px;
+    clear: both;
+}
+
+.text-option{
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 32px;
+    margin: 5px 0 10px 0;
+    padding: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    &:focus{
+        border-color: #3498DB;
+    }
+    &.error{
+        border-color: #E74C3C;
+    }
+    &[type="color"]{
+        padding: 0;
+        background-color: #fff;
+        border: none;
+    }
+    &.textarea{
+        padding: 5px;
+        height: 5em;
+        resize: none;
+    }
+}
+
+.file-option-wrap{
+    position: relative;
+    width: 100%;
+    height: 40px;
+    span{
+        display: block;
+        height: 40px;
+        margin-right: 40px;
+        overflow: hidden;
+        color: #999;
+        line-height: 40px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    button{
+        position: relative;
+        z-index: 3;
+        float: right;
+        width: 40px;
+        height: 40px;
+        color: #999;
+        &:hover{
+            color: #E74C3C;
+        }
+    }
+    input[type="file"]{
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        right: 40px;
+        bottom: 0;
+        left: 0;
+        opacity: 0;
+    }
+}
+
+.option-page-type{
+    margin: 10px 0;
+    button{
+        display: inline-block;
+        width: 110px;
+        height: 40px;
+        color: #999;
+        font-size: 14px;
+        font-weight: bold;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        &:first-child{
+            margin-right: 20px;
+        }
+    } 
+}

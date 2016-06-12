@@ -1,0 +1,20 @@
+.left-sidebar{
+    position: absolute;
+    z-index: 9999;
+    top: 71px;
+    bottom: 0;
+    left: 0;
+    width: 70px;
+    background-color: #fff;
+    border-right: 1px solid #eee;
+}
+.tool-button{
+    width: 70px;
+    height: 70px;
+    color: #999;
+    font-size: 24px;
+    border-bottom: 1px solid #eee;
+    &:hover{
+        background-color: #f5f6f7;
+    }
+}
