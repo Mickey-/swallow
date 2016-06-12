@@ -61,4 +61,4 @@ $ npm run build
 ## 项目合作角色
 
 产品：半边
-设计：ant design
+设计：柏舟 & ant design
