@@ -101,22 +101,31 @@
         bottom: 0;
         left: 0;
         opacity: 0;
+        &:hover + span{
+            color: #3498DB;
+        }
     }
 }
 
 .option-page-type{
+    overflow: hidden;
     margin: 10px 0;
+    text-align: center;
     button{
-        display: inline-block;
-        width: 110px;
+        display: block;
+        width: 100px;
         height: 40px;
+        margin: 0;
         color: #999;
         font-size: 14px;
         font-weight: bold;
         border: 1px solid #ccc;
         border-radius: 3px;
         &:first-child{
-            margin-right: 20px;
+            float: left;
+        }
+        &:last-child{
+            float: right;
         }
     } 
 }

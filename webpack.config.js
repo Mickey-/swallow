@@ -34,6 +34,12 @@ module.exports = {
                 },
                 {
                     test: /\.css$/,
+                    exclude: path.resolve(__dirname, './src'),
+                    loader: 'style-loader!css-loader?camelCase&importLoaders=1&localIdentName=[local]__[hash:base64:5]!postcss-loader'
+                },
+                {
+                    test: /\.css$/,
+                    include: path.resolve(__dirname, './src'),
                     loader: 'style-loader!css-loader?modules&camelCase&importLoaders=1&localIdentName=[local]__[hash:base64:5]!postcss-loader'
                 },
                 {
@@ -44,7 +50,6 @@ module.exports = {
                     'babel-loader'
                 ]
                 },
-                {test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/, loader: 'url-loader?limit=50000&name=[path][name].[ext]'},
                 {test: /\.json$/, loader: 'json-loader'},
                 {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192&name=[name]_[hash:5].[ext]'}
             ]

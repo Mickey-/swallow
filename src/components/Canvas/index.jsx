@@ -1,6 +1,7 @@
 import React from 'react'
 import Draggable from 'react-draggable'
 import classNames from 'classnames'
+import { Icon } from 'antd'
 import style from './style.scss'
 
 export default class Canvas extends React.Component{
@@ -26,25 +27,31 @@ export default class Canvas extends React.Component{
 
     render() {
 
+        let pageData = this.props.pageData
         let canvasClassNames = classNames(style.canvas, style.mobileCanvas)
-        let scaleStyle = {
-            transform: 'scale(' + this.state.scale + ')'
+        let canvasStyle = {
+            transform: 'scale(' + this.state.scale + ')',
+            backgroundColor: pageData.backgroundColor
         }
         let position = this.state.position
         let dragHandleStyle = this.state.allowDrag ? {display:'block',transform: 'scale(' + this.state.scale + ')'} : {display:'none'}
+
+        if (pageData.backgroundImageData) {
+            canvasStyle['backgroundImage'] = 'url(' + pageData.backgroundImageData + ')'
+        }
 
         return (
             <div data-role="canvas-wrap" onKeyDown={(e) => this.__keyDown(e)} onWheel={(e) => this.__scaleCanvas(e)} className={style.canvasWrap}>
                 <Draggable handle="#dragHandle" onDrag={(e, pos) => this.__draging(pos)} position={position}>
                     <div className={canvasClassNames}>
                         <div id="dragHandle" className={style.dragHandle} style={dragHandleStyle}></div>
-                        <div style={scaleStyle} id="appCanvas" className={style.canvasCore}>
+                        <div style={canvasStyle} id="appCanvas" className={style.canvasCore}>
 
                         </div>
                     </div>
                 </Draggable>
                 <div className={style.indicator}>
-                    <button onClick={() => this.__centerCanvas()} className={style.centerCanvas}><i className="fa fa-dot-circle-o"></i></button>
+                    <button onClick={() => this.__centerCanvas()} className={style.centerCanvas}><Icon type="shrink" /></button>
                     <span>{Math.round(this.state.scale * 100)}%</span>
                 </div>
             </div>

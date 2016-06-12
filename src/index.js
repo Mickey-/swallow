@@ -1,5 +1,4 @@
-import './assets/scss/base.scss'
-import './assets/scss/font-awesome/_font-awesome.scss'
+import './base.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRedirect, hashHistory } from 'react-router'

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from 'antd'
 import style from './style.scss'
 
 export default class LeftSidebar extends React.Component{
@@ -7,9 +8,7 @@ export default class LeftSidebar extends React.Component{
 
         return (
             <div className={style.leftSidebar}>
-                <button className={style.toolButton}>
-                    <i className="fa fa-link"></i>
-                </button>
+                <button className={style.toolButton}><Icon type="link" /></button>
             </div>
         )
 
