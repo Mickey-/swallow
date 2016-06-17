@@ -96,6 +96,10 @@ export default class Canvas extends React.Component{
 
     __scaleCanvas(e) {
 
+        if (!this.state.allowDrag) {
+            return false
+        }
+
         let scale = this.state.scale + e.deltaY * -0.05
         scale < 0.3 && (scale = 0.3)
         scale > 4 && (scale = 4)

@@ -13,6 +13,8 @@ export default class RightSidebar extends React.Component{
         super(props)
 
         this.state = {
+            showGlobalOptions: true,
+            showItemsOptions: true,
             pageBackgroundImage: null
         }
 
@@ -21,12 +23,16 @@ export default class RightSidebar extends React.Component{
     render() {
 
         let pageData = this.props.pageData
+        let globalOptionsIcon = this.state.showGlobalOptions ? <Icon type="up" /> : <Icon type="down" />
+        let itemsOptionsIcon = this.state.showItemsOptions ? <Icon type="up" /> : <Icon type="down" />
 
         return (
             <div className={style.rightSidebar}>
                 <div className={style.optionGroup}>
-                    <h5 className={style.optionCaption}>全局参数</h5>
-                    <div className={style.optionBody}>
+                    <h5 className={style.optionCaption}>全局参数<span onClick={() => this.__toggleOptionsGroup('global')} className={style.toggleGroup}>{globalOptionsIcon}</span></h5>
+                    <div className={style.optionBody} style={{
+                        display: this.state.showGlobalOptions ? 'block' : 'none'
+                    }}>
                         <label className={style.opitonLabel}>页面类型</label>
                         <div className={style.optionPageType}>
                             <button><Icon type="mobile" /> 移动端</button>
@@ -35,7 +41,7 @@ export default class RightSidebar extends React.Component{
                         <div className={style.groupLine}></div>
                         <label className={style.opitonLabel}>页面标题</label>
                         <input type="text" onChange={(e) => this.__updatePageData('title', e.currentTarget.value)} defaultValue={pageData.title} className={style.textOption}/>
-                        <label className={style.opitonLabel}>页面别名(英文和数字的组合)</label>
+                        <label className={style.opitonLabel}>访问路径(英文和数字的组合)</label>
                         <input type="text" onChange={(e) => this.__updatePageData('slug', e.currentTarget.value)} defaultValue={pageData.slug} className={style.textOption}/>
                         <div className={style.groupLine}></div>
                         <label className={style.opitonLabel}>背景图片</label>
@@ -62,6 +68,21 @@ export default class RightSidebar extends React.Component{
 
     }
 
+    __toggleOptionsGroup(type) {
+
+        switch (type){
+            case 'global':
+                this.setState({
+                    showGlobalOptions: !this.state.showGlobalOptions
+                })
+            case 'items':
+                this.setState({
+                    showItemsOptions: !this.state.showItemsOptions
+                })
+        }
+
+    }
+
     __updatePageData(name, value) {
 
         var tempData = {}
@@ -83,12 +104,11 @@ export default class RightSidebar extends React.Component{
         var imageType = /image.*/;
 
         if (file && file.type.match(imageType)) {
-
             var reader = new FileReader();
             reader.onload = (e) => {
                 this.__updatePageData('backgroundImageData', reader.result)
             }
-            this.__updatePageData('backgroundImageName', file.name)
+            this.__updatePageData('backgroundImageName', '[' + Math.round(file.size/1024) + 'KB]' + file.name)
             reader.readAsDataURL(file); 
 
         } else {

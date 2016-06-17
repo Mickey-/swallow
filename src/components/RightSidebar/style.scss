@@ -13,6 +13,7 @@
     border-bottom: 10px solid #f8f7f6;
 }
 .option-caption{
+    position: relative;
     height: 40px;
     margin: 0 0 10px 0;
     padding: 0 20px;
@@ -21,6 +22,15 @@
     font-size: 14px;
     font-weight: bold;
     border-bottom: 1px solid #eee;
+}
+.toggleGroup{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    color: #999;
+    font-size: 12px;
 }
 .group-line{
     height: 1px;
@@ -81,6 +91,7 @@
         line-height: 40px;
         font-size: 12px;
         font-weight: bold;
+        white-space: nowrap;
     }
     button{
         position: relative;
