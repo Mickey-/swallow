@@ -14,6 +14,7 @@
     bottom: 0;
     left: 0;
     margin: auto;
+    overflow: hidden;
 }
 .drag-handle{
     position: absolute;
@@ -40,6 +41,31 @@
     background-position: 50% 0;
     background-repeat: no-repeat;
     background-size: 100% auto;
+}
+.backgroundImageElement{
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+.linkElement{
+    position: absolute;
+    z-index: 889;
+    background-color: rgba(0,0,0,.2);
+    resize: both;
+    overflow: auto;
+    outline: dashed 4px rgba(#3498db, .8);
+    &:active{
+        background-color: rgba(#3498db,.8);
+    }
+}
+.linkDragHandler{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 15px;
+    bottom: 0;
+    left: 0;
+    cursor: move;
 }
 .indicator{
     position: absolute;

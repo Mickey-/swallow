@@ -15,7 +15,7 @@ class Editor extends React.Component{
         return (
             <div className={style.editPage}>
                 <Header pageData={this.props.pageData} actions={this.props.actions}/>
-                <LeftSidebar/>
+                <LeftSidebar actions={this.props.actions}/>
                 <Canvas pageData={this.props.pageData} actions={this.props.actions}/>
                 <RightSidebar pageData={this.props.pageData} actions={this.props.actions}/>
             </div>
@@ -27,7 +27,7 @@ class Editor extends React.Component{
 const mapStateToProps = (state) => {
 
     return {
-        pageData: state.editor
+        pageData: state.editor.attr
     }
 
 }

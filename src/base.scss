@@ -30,6 +30,20 @@ b, strong {
     font-weight: bold;
 }
 
+::-webkit-scrollbar {
+    width: 1px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    height: 1px;
+    background-color: rgba(#000, .5);
+}
+::-webkit-resizer{
+    position: absolute;
+    background-color: rgba(0,0,0,.5);
+    cursor: se-resize;
+}
+
 #root{
     height: 100vh;
 }

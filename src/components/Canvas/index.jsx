@@ -35,9 +35,25 @@ export default class Canvas extends React.Component{
         }
         let position = this.state.position
         let dragHandleStyle = this.state.allowDrag ? {display:'block',transform: 'scale(' + this.state.scale + ')'} : {display:'none'}
+        let backgroundImageElement = pageData.backgroundImageData ? <img draggable="false" className={style.backgroundImageElement} src={pageData.backgroundImageData}/> : null
 
-        if (pageData.backgroundImageData) {
-            canvasStyle['backgroundImage'] = 'url(' + pageData.backgroundImageData + ')'
+        const createLinks = (item, index) => {
+
+            let id = 'linkDragHandle' + index
+            let handle = '#linkDragHandle' + index
+            return (
+                <Draggable bounds="parent" handle={handle} key={index} onDrag={(e, pos) => this.__dragingElement(index, pos)}>
+                    <div className={style.linkElement} style={{
+                        top: item.top,
+                        left: item.left,
+                        width: item.width,
+                        height: item.height
+                    }}>
+                        <div className={style.linkDragHandler} id={id}></div>
+                    </div>
+                </Draggable>
+            )
+
         }
 
         return (
@@ -46,7 +62,8 @@ export default class Canvas extends React.Component{
                     <div className={canvasClassNames}>
                         <div id="dragHandle" className={style.dragHandle} style={dragHandleStyle}></div>
                         <div style={canvasStyle} id="appCanvas" className={style.canvasCore}>
-
+                            {backgroundImageElement}
+                            {pageData.elements.links.map(createLinks)}
                         </div>
                     </div>
                 </Draggable>
@@ -65,6 +82,7 @@ export default class Canvas extends React.Component{
             this.setState({
                allowDrag: true 
             })
+            e.preventDefault()
         }
 
     }
@@ -82,6 +100,10 @@ export default class Canvas extends React.Component{
         this.setState({
             position: pos
         })
+
+    }
+
+    __dragingElement(post, index) {
 
     }
 

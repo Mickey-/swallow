@@ -42,7 +42,7 @@ export default class RightSidebar extends React.Component{
                         <label className={style.opitonLabel}><span className={style.bgRed}>*</span>页面标题</label>
                         <input type="text" onChange={(e) => this.__updatePageData('title', e.currentTarget.value)} defaultValue={pageData.title} className={style.textOption}/>
                         <label className={style.opitonLabel}><span className={style.bgRed}>*</span>访问路径(英文和数字的组合)</label>
-                        <input type="text" onChange={(e) => this.__updatePageData('slug', e.currentTarget.value)} defaultValue={pageData.slug} className={style.textOption}/>
+                        <input type="text" onChange={(e) => this.__updatePageData('pathname', e.currentTarget.value)} defaultValue={pageData.pathname} className={style.textOption}/>
                         <div className={style.groupLine}></div>
                         <label className={style.opitonLabel}>背景图片</label>
                         <div className={style.fileOptionWrap}>
@@ -51,7 +51,7 @@ export default class RightSidebar extends React.Component{
                             <span className={style.selectedFileName}><Icon type="picture" /> {pageData.backgroundImageName || '选择图片'}</span>
                         </div>
                         <label className={style.opitonLabel}>背景颜色</label>
-                        <input type="color" defaultValue={pageData.backgroundColor} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} className={style.textOption}/>
+                        <input type="color" value={pageData.backgroundColor} onClick={(e) => this.__fixDefalutColor(e)} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} className={style.textOption}/>
                         <div className={style.groupLine}></div>
                         <label className={style.opitonLabel}>微信分享图标</label>
                         <input type="text" defaultValue={pageData.wxImage} onChange={(e) => this.__updatePageData('wxImage', e.currentTarget.value)} className={style.textOption}/>
@@ -115,6 +115,6 @@ export default class RightSidebar extends React.Component{
             console.log('文件格式不支持')
         }
 
-    } 
+    }
 
 }
