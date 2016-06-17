@@ -39,9 +39,9 @@ export default class RightSidebar extends React.Component{
                             <button><Icon type="laptop" /> 桌面端</button>
                         </div>
                         <div className={style.groupLine}></div>
-                        <label className={style.opitonLabel}>页面标题</label>
+                        <label className={style.opitonLabel}><span className={style.bgRed}>*</span>页面标题</label>
                         <input type="text" onChange={(e) => this.__updatePageData('title', e.currentTarget.value)} defaultValue={pageData.title} className={style.textOption}/>
-                        <label className={style.opitonLabel}>访问路径(英文和数字的组合)</label>
+                        <label className={style.opitonLabel}><span className={style.bgRed}>*</span>访问路径(英文和数字的组合)</label>
                         <input type="text" onChange={(e) => this.__updatePageData('slug', e.currentTarget.value)} defaultValue={pageData.slug} className={style.textOption}/>
                         <div className={style.groupLine}></div>
                         <label className={style.opitonLabel}>背景图片</label>
