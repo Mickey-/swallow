@@ -36,6 +36,13 @@ export default handleActions({
         }
         return Object.assign({}, state, { attr })
     },
+    'updateElement' (state, action) {
+        let attr = Object.assign({}, state.attr)
+        let element = attr.elements[action.payload.element_type][action.payload.index]
+        let new_element = Object.assign({}, element, action.payload.data)
+        attr.elements[action.payload.element_type][action.payload.index] = new_element
+        return Object.assign({}, state, { attr })
+    },
     'clearPageData' (state) {
         return initialState
     }

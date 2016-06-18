@@ -20,8 +20,8 @@ export default class LeftSidebar extends React.Component{
             element: {
                 'left': 0, //left位置 int
                 'top': 0, //top位置 int
-                'width': 40, //宽度 int
-                'height': 40, //高度 int
+                'width': 30, //宽度 int
+                'height': 30, //高度 int
                 'target': '_self', //打开方式 varchar
                 'protocol': 'http', //协议 varchar
                 'url': '' //地址 varchar

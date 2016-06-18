@@ -2,9 +2,6 @@ import React from 'react'
 import { Icon } from 'antd'
 import classNames from 'classnames'
 import style from './style.scss'
-import createStore from '../../store'
-
-const store = createStore()
 
 export default class RightSidebar extends React.Component{
 
@@ -51,7 +48,7 @@ export default class RightSidebar extends React.Component{
                             <span className={style.selectedFileName}><Icon type="picture" /> {pageData.backgroundImageName || '选择图片'}</span>
                         </div>
                         <label className={style.opitonLabel}>背景颜色</label>
-                        <input type="color" value={pageData.backgroundColor} onClick={(e) => this.__fixDefalutColor(e)} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} className={style.textOption}/>
+                        <input type="color" value={pageData.backgroundColor} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} className={style.textOption}/>
                         <div className={style.groupLine}></div>
                         <label className={style.opitonLabel}>微信分享图标</label>
                         <input type="text" defaultValue={pageData.wxImage} onChange={(e) => this.__updatePageData('wxImage', e.currentTarget.value)} className={style.textOption}/>
