@@ -8,6 +8,7 @@ export default class Header extends Component {
     render() {
 
         let pageData = this.props.pageData
+        let editorState = this.props.editorState
 
         return (
             <header className={style.appHeader}>
@@ -19,7 +20,7 @@ export default class Header extends Component {
                     <button className={style.btnPublish}><Icon type="check" /> 发布</button>
                 </div>
                 <div className={style.caption}>
-                    <h5>{(pageData.title ? pageData.title : '未命名项目') + (pageData.unsave ? '*' : '')}</h5>
+                    <h5>{(pageData.title ? pageData.title : '未命名项目') + (editorState.unsave ? '*' : '')}</h5>
                     <h6>{pageData.lastSaveTime ? '上次保存于16:23:43' : '当前项目未保存'}</h6>
                 </div>
             </header>

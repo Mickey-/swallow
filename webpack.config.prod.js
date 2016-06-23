@@ -26,13 +26,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.scss$/,
-                exclude: path.resolve(__dirname, './src/assets/scss/font-awesome'),
                 loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&minimize&camelCase&importLoaders=1&localIdentName=[local]__[hash:base64:5]!postcss-loader!sass-loader')
-            },
-            {
-                test: /\.scss$/,
-                include: path.resolve(__dirname, './src/assets/scss/font-awesome'),
-                loader: 'style!css!sass'
             },
             {
                 test: /\.css$/,

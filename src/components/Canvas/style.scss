@@ -5,6 +5,7 @@
     right: 280px;
     bottom: 0;
     left: 80px;
+    user-select: none;
 }
 .canvas{
     position: absolute;
@@ -14,7 +15,26 @@
     bottom: 0;
     left: 0;
     margin: auto;
-    // overflow: hidden;
+}
+
+.sketchpad{
+    display: none;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    cursor: crosshair;
+    &[data-current-tool='links']{
+        display: block;
+    }
+}
+.temp-element{
+    box-sizing: border-box;
+    position: absolute;
+    background-color: rgba(#3498db, .6);
 }
 .drag-handle{
     position: absolute;
@@ -26,7 +46,7 @@
     cursor: move;
 }
 .mobile-canvas{
-    width: 355px;
+    width: 375px;
     height: 667px;
 }
 .pc-canvas{
@@ -41,32 +61,43 @@
     overflow: auto;
     background-color: #eae9e8;
 }
-.elementWrapper{
+.element-wrapper{
     min-height: 100%;
 }
-.backgroundImageElement{
+.background-image-element{
     display: block;
     max-width: 100%;
     height: auto;
 }
-.linkElement{
+.link-element{
     box-sizing: border-box;
     position: absolute;
     z-index: 889;
     resize: both;
-    overflow: auto;
-    border: solid 3px #333;
-    outline: dashed 3px #f39c12;
-    outline-offset: -3px;
+    border: solid 1px rgba(#000, .5);
+    outline: dashed 1px #3498db;
+    outline-offset: -1px;
+    background-clip: padding-box;
+    background-color: rgba(#3498db, .2);
     &.active{
         background-color: rgba(#3498db,.8);
     }
 }
-.linkDragHandler{
+.link-resize-handle{
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(#000, .5);
+    cursor: se-resize;
+}
+.link-drag-handle{
     position: absolute;
     z-index: 1;
     top: 0;
-    right: 15px;
+    right: 0;
     bottom: 0;
     left: 0;
     cursor: move;

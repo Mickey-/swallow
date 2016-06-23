@@ -1,22 +1,29 @@
 import { handleActions } from 'redux-actions'
 
 const initialState = {
-    'attr': {
+    'pageData': {
         'layout': 'mobile', //页面布局类型 varchar
         'title': '', //页面标题 varchar
         'pathname': '', //页面路径名 varchar
         'backgroundImageName': '', //背景图名称 varchar
         'backgroundImageData': '', //背景图base64数据 long text
-        'backgroundColor': '#ff6600', //背景颜色 varchar
+        'backgroundColor': '#34495e', //背景颜色 varchar
         'wxImage': '', //微信分享图标地址 varchar
         'wxTitle': '', //微信分享标题 varchar
         'wxDesc': '', //微信分享描述 varchar
         'baiduStatistics': '', //百度统计代码 text
         'elements': { // 页面元素
             'links': []
-        },
+        }
+    },
+    'editorState' : {
         'lastSaveTime': 0, //上次保存时间 （秒级时间戳）int
         'unsave': false,
+        'currentTool': null,
+        'currentElement': {
+            'type': null,
+            'index': null
+        }
     },
     'html': ''//渲染出来的HTML代码 long text
 }
@@ -24,24 +31,27 @@ const initialState = {
 export default handleActions({
 
     'updatePageData' (state, action) {
-        action.payload.unsave = true
-        let attr = Object.assign({}, state.attr, action.payload)
-        return Object.assign({}, state, { attr })
+        let editorState = {unsave: true}
+        let pageData = Object.assign({}, state.pageData, action.payload)
+        return Object.assign({}, state, { pageData }, {editorState})
+    },
+    'updateEditorState' (state, action) {
+        let editorState = Object.assign({}, state.editorState, action.payload)
+        return Object.assign({}, state, { editorState })
     },
     'addElement' (state, action) {
-        let attr = Object.assign({}, state.attr)
-        if (action.payload.element_type in attr.elements && attr.elements[action.payload.element_type].push) {
-            attr.elements[action.payload.element_type].push(action.payload.element)
-            attr.unsave = true
+        let pageData = Object.assign({}, state.pageData)
+        if (action.payload.element_type in pageData.elements && pageData.elements[action.payload.element_type].push) {
+            pageData.elements[action.payload.element_type].push(action.payload.element)
         }
-        return Object.assign({}, state, { attr })
+        return Object.assign({}, state, { pageData })
     },
     'updateElement' (state, action) {
-        let attr = Object.assign({}, state.attr)
-        let element = attr.elements[action.payload.element_type][action.payload.index]
+        let pageData = Object.assign({}, state.pageData)
+        let element = pageData.elements[action.payload.element_type][action.payload.index]
         let new_element = Object.assign({}, element, action.payload.data)
-        attr.elements[action.payload.element_type][action.payload.index] = new_element
-        return Object.assign({}, state, { attr })
+        pageData.elements[action.payload.element_type][action.payload.index] = new_element
+        return Object.assign({}, state, { pageData })
     },
     'clearPageData' (state) {
         return initialState

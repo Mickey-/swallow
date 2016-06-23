@@ -15,63 +15,57 @@ module.exports = {
             'react-router-redux',
             'redux'
         ]
-        },
-        output: {
-            path: path.join(__dirname, './dist'),
-            filename: '[name].js'
-        },
-        module: {
-            loaders: [
-                {
-                    test: /\.scss$/,
-                    exclude: path.resolve(__dirname, './src/assets/scss/font-awesome'),
-                    loader: 'style-loader!css-loader?modules&camelCase&importLoaders=1&localIdentName=[local]__[hash:base64:5]!postcss-loader!sass-loader'
-                },
-                {
-                    test: /\.scss$/,
-                    include: path.resolve(__dirname, './src/assets/scss/font-awesome'),
-                    loader: 'style!css!sass?sourceMap=true'
-                },
-                {
-                    test: /\.css$/,
-                    exclude: path.resolve(__dirname, './src'),
-                    loader: 'style-loader!css-loader?camelCase&importLoaders=1&localIdentName=[local]__[hash:base64:5]!postcss-loader'
-                },
-                {
-                    test: /\.css$/,
-                    include: path.resolve(__dirname, './src'),
-                    loader: 'style-loader!css-loader?modules&camelCase&importLoaders=1&localIdentName=[local]__[hash:base64:5]!postcss-loader'
-                },
-                {
+    },
+    output: {
+        path: path.join(__dirname, './dist'),
+        filename: '[name].js'
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.scss$/,
+                loader: 'style-loader!css-loader?modules&camelCase&importLoaders=1&localIdentName=[local]__[hash:base64:5]!postcss-loader!sass-loader'
+            },
+            {
+                test: /\.css$/,
+                exclude: path.resolve(__dirname, './src'),
+                loader: 'style-loader!css-loader?camelCase&importLoaders=1&localIdentName=[local]__[hash:base64:5]!postcss-loader'
+            },
+            {
+                test: /\.css$/,
+                include: path.resolve(__dirname, './src'),
+                loader: 'style-loader!css-loader?modules&camelCase&importLoaders=1&localIdentName=[local]__[hash:base64:5]!postcss-loader'
+            },
+            {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loaders: [
                     'react-hot',
                     'babel-loader'
                 ]
-                },
-                {test: /\.json$/, loader: 'json-loader'},
-                {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192&name=[name]_[hash:5].[ext]'}
-            ]
-        },
-        resolve: {
-            extensions: ['', '.js', '.jsx']
-        },
-        postcss: [
-            autoprefixer({
-                browsers: [ 'Android >= 4', 'iOS > 6', 'last 10 Chrome versions', 'last 4 Firefox versions', 'Safari >= 6', 'ie > 8' ]
-            })
-        ],
-        plugins: [
-            new webpack.optimize.CommonsChunkPlugin('lib', 'lib.js'),
-            new webpack.DefinePlugin({
-                'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
-            }),
-            new HtmlWebpackPlugin({
-                template: './index.html'
-            })
-        ],
-        devServer: {
+            },
+            {test: /\.json$/, loader: 'json-loader'},
+            {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192&name=[name]_[hash:5].[ext]'}
+        ]
+    },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
+    postcss: [
+        autoprefixer({
+            browsers: [ 'Android >= 4', 'iOS > 6', 'last 10 Chrome versions', 'last 4 Firefox versions', 'Safari >= 6', 'ie > 8' ]
+        })
+    ],
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin('lib', 'lib.js'),
+        new webpack.DefinePlugin({
+            'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
+        }),
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        })
+    ],
+    devServer: {
         stats: { chunks:false },
         contentBase: './src',
         hot: true

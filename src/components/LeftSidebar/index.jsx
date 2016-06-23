@@ -8,24 +8,15 @@ export default class LeftSidebar extends React.Component{
 
         return (
             <div className={style.leftSidebar}>
-                <button onClick={() => this.__addLinkElement()} className={style.toolButton}><Icon type="link" /></button>
+                <button onClick={() => this.__setCurrentTool('link')} className={style.toolButton}><Icon type="link" /></button>
             </div>
         )
 
     }
 
-    __addLinkElement() {
-        this.props.actions.addElement({
-            element_type: 'links',
-            element: {
-                'left': 0, //left位置 int
-                'top': 0, //top位置 int
-                'width': 30, //宽度 int
-                'height': 30, //高度 int
-                'target': '_self', //打开方式 varchar
-                'protocol': 'http', //协议 varchar
-                'url': '' //地址 varchar
-            }
+    __setCurrentTool() {
+        this.props.actions.updateEditorState({
+            currentTool: 'links'
         })
     }
 
