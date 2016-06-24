@@ -27,10 +27,6 @@ export default class Canvas extends React.Component{
                 left: 0,
                 width: 0,
                 height: 0
-            },
-            selectedElement: {
-                'type': null,
-                'inedx': null
             }
         }
 
@@ -62,8 +58,8 @@ export default class Canvas extends React.Component{
         })
 
         window.addEventListener('resize', (e) => this.__triggerGlobalResize(e))
-        document.addEventListener('keydown', (e) => this.__keyDown(e))
-        document.addEventListener('keyup', (e) => this.__keyUp(e))
+        document.addEventListener('keydown', (e) => this.__triggerGlobalKeyDown(e))
+        document.addEventListener('keyup', (e) => this.__triggerGlobalKeyUp(e))
         document.addEventListener('mouseup', (e) => this.__triggleGlobalMouseUp(e))
         document.addEventListener('mousedown', (e) => this.__triggleGlobalMouseDown(e))
         document.addEventListener('mousemove', (e) => this.__triggerGlobalDragging(e))
@@ -95,7 +91,7 @@ export default class Canvas extends React.Component{
                 maxWidth: this.state.width - item.left
             }
             let classNames = [style.linkElement]
-            if (this.state.selectedElement.type === 'links' && this.state.selectedElement.index === index) {
+            if (editorState.currentElement.type === 'links' && editorState.currentElement.index === index) {
                 classNames[1] = [style.active] 
             }
 
@@ -113,7 +109,7 @@ export default class Canvas extends React.Component{
                 <div data-current-tool={editorState.currentTool} style={this.state.sketchpad} onMouseDown={(e) => {this.__startDrawingElement(e)}} onMouseMove={(e) => this.__drawingElement(e)} onMouseUp={() => this.__confirmDrawingElement()} className={style.sketchpad}>
                     <div style={this.state.tempElement} className={style.tempElement}></div>
                 </div>
-                <div data-role="canvas-wrap" onKeyDown={(e) => this.__keyDown(e)} onWheel={(e) => this.__resizeCanvas(e)} className={style.canvasWrap}>
+                <div data-role="canvas-wrap" onKeyDown={(e) => this.__triggerGlobalKeyDown(e)} onWheel={(e) => this.__resizeCanvas(e)} className={style.canvasWrap}>
                     <Draggable handle="#dragHandle" onDrag={(e, pos) => this.__draggingCanvas(pos)} position={position}>
                         <div className={canvasClassNames}>
                             <div id="dragHandle" className={style.dragHandle} style={dragHandleStyle}></div>
@@ -135,24 +131,37 @@ export default class Canvas extends React.Component{
 
     }
 
-    __keyDown(e) {
+    __triggerGlobalKeyDown(e) {
 
-        if (e.keyCode === 32) {
+        let keyCode = e.keyCode
+        let nodeName = e.target.nodeName.toLowerCase()
+        let isInput = (nodeName === 'input' || nodeName === 'textarea')
+
+        if (keyCode === 32) {
             this.setState({
                 allowDragCanvas: true 
             })
             e.preventDefault()
         }
 
-        if (e.keyCode === 65) {
+        if (keyCode === 65) {
             this.props.actions.updateEditorState({
                 currentTool: 'links'
             })
         }
 
+        if (keyCode === 8 && !isInput) {
+            e.preventDefault()
+            return false
+        }
+
+        if (keyCode === 46) {
+            this.__deleteCurrentElement()
+        }
+
     }
 
-    __keyUp() {
+    __triggerGlobalKeyUp() {
 
         this.setState({
             allowDragCanvas: false 
@@ -179,11 +188,14 @@ export default class Canvas extends React.Component{
     }
 
     __selectElement(type, index) {
+        this.props.actions.selectElement({ type, index })
+    }
 
-        this.setState({
-            selectedElement: {type, index}
+    __deleteCurrentElement() {
+        this.props.actions.deleteElement({
+            type: this.props.editorState.currentElement.type,
+            index: this.props.editorState.currentElement.index,
         })
-
     }
 
     __startResizeElement(e, type, index) {
@@ -258,11 +270,9 @@ export default class Canvas extends React.Component{
             this.props.actions.addElement({
                 element_type, element
             })
-            this.setState({
-                selectedElement: {
-                    'type': element_type,
-                    'index': this.props.pageData.elements[element_type].length - 1
-                }
+            this.props.actions.selectElement({
+                'type': element_type,
+                'index': this.props.pageData.elements[element_type].length - 1
             })
 
         }
@@ -322,18 +332,17 @@ export default class Canvas extends React.Component{
 
     __triggleGlobalMouseDown(e) {
 
-        if (e.target.dataset.role !== 'element') {
+        if (e.target.dataset.role === 'canvas-wrap') {
 
-            this.setState({
-                selectedElement: {
-                    type: null,
-                    index: null
-                }
+            this.props.actions.selectElement({
+                type: null,
+                index: null
             })
 
         }
 
         this.__globalMouseDown = true
+
     }
 
     __triggleGlobalMouseUp(e, type, index) {

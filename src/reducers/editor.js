@@ -31,28 +31,79 @@ const initialState = {
 export default handleActions({
 
     'updatePageData' (state, action) {
-        let editorState = {unsave: true}
+
+        let editorState = Object.assign({}, state.editorState, {unsave: true})
         let pageData = Object.assign({}, state.pageData, action.payload)
+
         return Object.assign({}, state, { pageData }, {editorState})
+
     },
+
     'updateEditorState' (state, action) {
+
         let editorState = Object.assign({}, state.editorState, action.payload)
         return Object.assign({}, state, { editorState })
+
     },
+
     'addElement' (state, action) {
+
         let pageData = Object.assign({}, state.pageData)
+
         if (action.payload.element_type in pageData.elements && pageData.elements[action.payload.element_type].push) {
             pageData.elements[action.payload.element_type].push(action.payload.element)
         }
+
         return Object.assign({}, state, { pageData })
+
     },
+
+    'selectElement' (state, action) {
+
+        let editorState = Object.assign({}, state.editorState)
+        editorState.currentElement = action.payload
+
+        return Object.assign({}, state, { editorState })
+
+    },
+
     'updateElement' (state, action) {
+
         let pageData = Object.assign({}, state.pageData)
         let element = pageData.elements[action.payload.element_type][action.payload.index]
         let new_element = Object.assign({}, element, action.payload.data)
         pageData.elements[action.payload.element_type][action.payload.index] = new_element
+
         return Object.assign({}, state, { pageData })
+
     },
+
+    'deleteElement' (state, action) {
+
+        let { type, index } = action.payload
+
+        if (type && index !== null) {
+
+            let pageData = Object.assign({}, state.pageData)
+            let editorState = Object.assign({}, state.editorState)
+            let elements = pageData.elements[type]
+
+            elements && elements.splice(index, 1)
+            pageData.elements[type] = elements
+
+            if (editorState.currentElement.type === type && editorState.currentElement.index === index) {
+                editorState.currentElement = {
+                    type: null,
+                    index: null
+                }
+            }
+
+            return Object.assign({}, state, { pageData, editorState })
+
+        }
+
+    },
+
     'clearPageData' (state) {
         return initialState
     }

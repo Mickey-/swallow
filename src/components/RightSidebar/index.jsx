@@ -1,7 +1,9 @@
 import React from 'react'
-import { Icon } from 'antd'
+import { Icon, Select } from 'antd'
 import classNames from 'classnames'
 import style from './style.scss'
+
+const Option = Select.Option
 
 export default class RightSidebar extends React.Component{
 
@@ -11,7 +13,7 @@ export default class RightSidebar extends React.Component{
 
         this.state = {
             showGlobalOptions: true,
-            showItemsOptions: true,
+            showElementOptions: true,
             pageBackgroundImage: null
         }
 
@@ -20,8 +22,8 @@ export default class RightSidebar extends React.Component{
     render() {
 
         let pageData = this.props.pageData
+        let editorState = this.props.editorState
         let globalOptionsIcon = this.state.showGlobalOptions ? <Icon type="up" /> : <Icon type="down" />
-        let itemsOptionsIcon = this.state.showItemsOptions ? <Icon type="up" /> : <Icon type="down" />
 
         return (
             <div className={style.rightSidebar}>
@@ -50,15 +52,76 @@ export default class RightSidebar extends React.Component{
                         <label className={style.opitonLabel}>背景颜色</label>
                         <input type="color" value={pageData.backgroundColor} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} className={style.textOption}/>
                         <div className={style.groupLine}></div>
-                        <label className={style.opitonLabel}>微信分享图标</label>
+                        <label className={style.opitonLabel}>分享图标</label>
                         <input type="text" defaultValue={pageData.wxImage} onChange={(e) => this.__updatePageData('wxImage', e.currentTarget.value)} className={style.textOption}/>
-                        <label className={style.opitonLabel}>微信分享标题</label>
+                        <label className={style.opitonLabel}>分享标题</label>
                         <input type="text" defaultValue={pageData.wxTitle} onChange={(e) => this.__updatePageData('wxTitle', e.currentTarget.value)} className={style.textOption}/>
-                        <label className={style.opitonLabel}>微信分享描述</label>
+                        <label className={style.opitonLabel}>分享描述</label>
                         <textarea defaultValue={pageData.wxDesc} onChange={(e) => this.__updatePageData('wxDesc', e.currentTarget.value)} className={classNames(style.textOption, style.textarea)}></textarea>
                         <label className={style.opitonLabel}>百度统计代码</label>
                         <textarea defaultValue={pageData.baiduStatistics} onChange={(e) => this.__updatePageData('baiduStatistics', e.currentTarget.value)} className={classNames(style.textOption, style.textarea)}></textarea>
                     </div>
+                </div>
+                {this.__createElementOptionsGroup()}
+            </div>
+        )
+
+    }
+
+    __createElementOptionsGroup() {
+
+        let { type, index } = this.props.editorState.currentElement
+
+        if (type === null || index === null) {
+            return null
+        }
+
+        let elementCaptions = {
+            'links': '超链接'
+        }
+        let element = this.props.pageData.elements[type][index]
+        let elementOptionsIcon = this.state.showElementOptions ? <Icon type="up" /> : <Icon type="down" />
+        let elementHTML
+
+        const updateElementData = (name, value) => {
+
+            let data = {}; data[name] = value
+            this.props.actions.updateElement({ 'element_type': type, index, data})
+
+        }
+
+        if (type === 'links') {
+
+            elementHTML = (
+                <div>
+                    <label className={style.opitonLabel}>链接地址</label>
+                    <input type="text" onChange={(e) => updateElementData('url', e.currentTarget.value)} defalutValue="" value={element.url} className={style.textOption}/>
+                    <div className={style.groupLine}></div>
+                    <label className={style.opitonLabel}>打开方式</label>
+                    <Select className={style.selectOption} size="large" onChange={(value) => updateElementData('target', value)} defaultValue="_self" value={element.target}>
+                        <Option key="0" value="_self">当前窗口</Option>
+                        <Option key="1" value="_blank">新建窗口</Option>
+                    </Select>
+                </div>
+            )
+        }
+
+        /*<label className={style.opitonLabel}>链接到APP页面</label>
+                    <Select className={style.selectOption} size="large" onChange={(value) => updateElementData('url', value)} defaultValue="null" value={element.url || 'null'}>
+                        <Option key="0" value="null">无</Option>
+                        <Option key="1" value="HXSJSBridge.pushMyCouponView()">优惠券页面</Option>
+                        <Option key="2" value="HXSJSBridge.openOrderListView(4)">订单列表页面</Option>
+                        <Option key="3" value="HXSJSBridge.openCreditPayView(4)">信用钱包页面</Option>
+                        <Option key="4" value="HXSJSBridge.openCreditCardView()">花不完页面</Option>
+        </Select>*/
+
+        return (
+            <div className={style.optionGroup}>
+                <h5 className={style.optionCaption}>{elementCaptions[type]}<span onClick={() => this.__toggleOptionsGroup('element')} className={style.toggleGroup}>{elementOptionsIcon}</span></h5>
+                <div className={style.optionBody} style={{
+                    display: this.state.showElementOptions ? 'block' : 'none'
+                }}>
+                    {elementHTML}
                 </div>
             </div>
         )
@@ -72,10 +135,12 @@ export default class RightSidebar extends React.Component{
                 this.setState({
                     showGlobalOptions: !this.state.showGlobalOptions
                 })
-            case 'items':
+            break
+            case 'element':
                 this.setState({
-                    showItemsOptions: !this.state.showItemsOptions
+                    showElementOptions: !this.state.showElementOptions
                 })
+            break
         }
 
     }
