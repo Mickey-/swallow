@@ -68,6 +68,7 @@
     display: block;
     max-width: 100%;
     height: auto;
+    margin: 0 auto;
 }
 .link-element{
     box-sizing: border-box;
@@ -95,6 +96,19 @@
     height: 20px;
     background-color: rgba(#3498db, .2);
     cursor: se-resize;
+}
+.highlight .link-element{
+    outline-color: rgba(#f39c12, .6);
+    background-color: rgba(#f39c12, .1);
+    .link-resize-handle{
+        background-color: rgba(#f39c12, .2);
+    }
+    &.active{
+        background-color: rgba(#f39c12, .5);
+        .link-resize-handle{
+            background-color: rgba(#f39c12, 1);
+        }
+    }
 }
 .link-drag-handle{
     position: absolute;

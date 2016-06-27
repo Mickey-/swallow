@@ -7,7 +7,7 @@ const initialState = {
         'pathname': '', //页面路径名 varchar
         'backgroundImageName': '', //背景图名称 varchar
         'backgroundImageData': '', //背景图base64数据 long text
-        'backgroundColor': '#34495e', //背景颜色 varchar
+        'backgroundColor': '#ffffff', //背景颜色 varchar
         'wxImage': '', //微信分享图标地址 varchar
         'wxTitle': '', //微信分享标题 varchar
         'wxDesc': '', //微信分享描述 varchar
@@ -49,10 +49,12 @@ export default handleActions({
     'addElement' (state, action) {
 
         let pageData = Object.assign({}, state.pageData)
+        let allElements = Object.assign({}, pageData.elements)
+        let elements = [ ...allElements[action.payload.element_type] ]
 
-        if (action.payload.element_type in pageData.elements && pageData.elements[action.payload.element_type].push) {
-            pageData.elements[action.payload.element_type].push(action.payload.element)
-        }
+        elements.push(action.payload.element)
+        allElements[action.payload.element_type] = elements
+        pageData.elements = allElements
 
         return Object.assign({}, state, { pageData })
 
@@ -105,7 +107,8 @@ export default handleActions({
     },
 
     'clearPageData' (state) {
-        return initialState
+        console.log(state, initialState)
+        return Object.assign({}, initialState)
     }
 
 }, initialState)

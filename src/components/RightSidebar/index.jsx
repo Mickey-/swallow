@@ -28,15 +28,15 @@ export default class RightSidebar extends React.Component{
         return (
             <div className={style.rightSidebar}>
                 <div className={style.optionGroup}>
-                    <h5 className={style.optionCaption}>全局参数<span onClick={() => this.__toggleOptionsGroup('global')} className={style.toggleGroup}>{globalOptionsIcon}</span></h5>
+                    <h5 className={style.optionCaption}>页面属性<span onClick={() => this.__toggleOptionsGroup('global')} className={style.toggleGroup}>{globalOptionsIcon}</span></h5>
                     <div className={style.optionBody} style={{
                         display: this.state.showGlobalOptions ? 'block' : 'none'
                     }}>
                         <label className={style.opitonLabel}>页面类型</label>
-                        <div className={style.optionPageType}>
-                            <button><Icon type="mobile" /> 移动端</button>
-                            <button><Icon type="laptop" /> 桌面端</button>
-                        </div>
+                        <Select className={style.selectOption} size="large" onChange={(value) => this.__updatePageData('layout', value)} defaultValue="mobile" value={pageData.layout}>
+                            <Option key="0" value="mobile"><Icon type="mobile" /> 移动端</Option>
+                            <Option key="1" value="pc"><Icon type="laptop" /> 桌面端</Option>
+                        </Select>
                         <div className={style.groupLine}></div>
                         <label className={style.opitonLabel}><span className={style.bgRed}>*</span>页面标题</label>
                         <input type="text" onChange={(e) => this.__updatePageData('title', e.currentTarget.value)} defaultValue={pageData.title} className={style.textOption}/>
@@ -50,6 +50,7 @@ export default class RightSidebar extends React.Component{
                             <span className={style.selectedFileName}><Icon type="picture" /> {pageData.backgroundImageName || '选择图片'}</span>
                         </div>
                         <label className={style.opitonLabel}>背景颜色</label>
+                        <input type="text" value={pageData.backgroundColor} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} style={{fontWeight: 'bold'}} className={style.textOption}/>
                         <input type="color" value={pageData.backgroundColor} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} className={style.textOption}/>
                         <div className={style.groupLine}></div>
                         <label className={style.opitonLabel}>分享图标</label>
@@ -58,7 +59,7 @@ export default class RightSidebar extends React.Component{
                         <input type="text" defaultValue={pageData.wxTitle} onChange={(e) => this.__updatePageData('wxTitle', e.currentTarget.value)} className={style.textOption}/>
                         <label className={style.opitonLabel}>分享描述</label>
                         <textarea defaultValue={pageData.wxDesc} onChange={(e) => this.__updatePageData('wxDesc', e.currentTarget.value)} className={classNames(style.textOption, style.textarea)}></textarea>
-                        <label className={style.opitonLabel}>百度统计代码</label>
+                        <label className={style.opitonLabel}>统计代码</label>
                         <textarea defaultValue={pageData.baiduStatistics} onChange={(e) => this.__updatePageData('baiduStatistics', e.currentTarget.value)} className={classNames(style.textOption, style.textarea)}></textarea>
                     </div>
                 </div>
@@ -83,6 +84,19 @@ export default class RightSidebar extends React.Component{
         let elementOptionsIcon = this.state.showElementOptions ? <Icon type="up" /> : <Icon type="down" />
         let elementHTML
 
+        const hxlinks = ['优惠券页面', '订单列表页面', '信用钱包页面', '花不完页面']
+        const getHXLink= (link) => {
+
+            if (hxlinks.some((item) => {
+                return item === link
+            })) {
+                return link
+            } else {
+                return 'null'
+            }
+
+        }
+
         const updateElementData = (name, value) => {
 
             let data = {}; data[name] = value
@@ -95,7 +109,16 @@ export default class RightSidebar extends React.Component{
             elementHTML = (
                 <div>
                     <label className={style.opitonLabel}>链接地址</label>
-                    <input type="text" onChange={(e) => updateElementData('url', e.currentTarget.value)} defalutValue="" value={element.url} className={style.textOption}/>
+                    <input type="text" onChange={(e) => updateElementData('url', e.currentTarget.value)} defalutValue="" value={element.url !== 'null' ? element.url : ''} className={style.textOption}/>
+                    <label className={style.opitonLabel}>链接到APP页面</label>
+                    <Select className={style.selectOption} size="large" onChange={(value) => updateElementData('url', value)} defaultValue="null" value={getHXLink(element.url)}>
+                        <Option key="0" value="null">无</Option>
+                        {hxlinks.map((item) => {
+                            return (
+                                <Option key={index + 1} value={item}>{item}</Option>
+                            )
+                        })}
+                    </Select>
                     <div className={style.groupLine}></div>
                     <label className={style.opitonLabel}>打开方式</label>
                     <Select className={style.selectOption} size="large" onChange={(value) => updateElementData('target', value)} defaultValue="_self" value={element.target}>
@@ -105,15 +128,6 @@ export default class RightSidebar extends React.Component{
                 </div>
             )
         }
-
-        /*<label className={style.opitonLabel}>链接到APP页面</label>
-                    <Select className={style.selectOption} size="large" onChange={(value) => updateElementData('url', value)} defaultValue="null" value={element.url || 'null'}>
-                        <Option key="0" value="null">无</Option>
-                        <Option key="1" value="HXSJSBridge.pushMyCouponView()">优惠券页面</Option>
-                        <Option key="2" value="HXSJSBridge.openOrderListView(4)">订单列表页面</Option>
-                        <Option key="3" value="HXSJSBridge.openCreditPayView(4)">信用钱包页面</Option>
-                        <Option key="4" value="HXSJSBridge.openCreditCardView()">花不完页面</Option>
-        </Select>*/
 
         return (
             <div className={style.optionGroup}>

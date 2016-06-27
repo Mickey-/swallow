@@ -1,6 +1,5 @@
 import React from 'react'
 import Draggable from 'react-draggable'
-import classNames from 'classnames'
 import { Icon } from 'antd'
 import style from './style.scss'
 
@@ -13,6 +12,7 @@ export default class Canvas extends React.Component{
         this.state = {
             scale: 1,
             allowDragCanvas: false,
+            hightlightElements: false,
             width: 0,
             height: 0,
             position: {x:0, y:0},
@@ -66,12 +66,37 @@ export default class Canvas extends React.Component{
 
     }
 
+    componentWillReceiveProps() {
+
+        let listOfLayoutSize = {
+            'mobile': [375, 667],
+            'pc': [1920, 1080]
+        }
+        let rect = this.__canvas.getBoundingClientRect()
+        this.setState({
+            width: listOfLayoutSize[this.props.pageData.layout][0],
+            height: listOfLayoutSize[this.props.pageData.layout][1],
+            sketchpad: {
+                left: rect.left,
+                top: rect.top,
+                width: rect.width,
+                height: rect.height
+
+            }
+        })
+
+    }
+
     render() {
 
         let pageData = this.props.pageData
         let editorState = this.props.editorState
 
-        let canvasClassNames = classNames(style.canvas, style.mobileCanvas)
+        let layoutClassNames = {
+            'mobile': style.mobileCanvas,
+            'pc': style.pcCanvas
+        }
+        let canvasClassNames = [style.canvas, layoutClassNames[pageData.layout]]
         let canvasStyle = {
             transform: 'scale(' + this.state.scale + ')',
             backgroundColor: pageData.backgroundColor
@@ -79,6 +104,9 @@ export default class Canvas extends React.Component{
         let position = this.state.position
         let dragHandleStyle = this.state.allowDragCanvas ? {display:'block',transform: 'scale(' + this.state.scale + ')'} : {display:'none'}
         let backgroundImageElement = pageData.backgroundImageData ? <img draggable="false" className={style.backgroundImageElement} src={pageData.backgroundImageData}/> : null
+
+        let elementWrapperClassNames = [style.elementWrapper]
+        this.state.hightlightElements && elementWrapperClassNames.push(style.highlight)
 
         const createLinks = (item, index) => {
 
@@ -111,10 +139,10 @@ export default class Canvas extends React.Component{
                 </div>
                 <div data-role="canvas-wrap" onKeyDown={(e) => this.__triggerGlobalKeyDown(e)} onWheel={(e) => this.__resizeCanvas(e)} className={style.canvasWrap}>
                     <Draggable handle="#dragHandle" onDrag={(e, pos) => this.__draggingCanvas(pos)} position={position}>
-                        <div className={canvasClassNames}>
+                        <div data-role="canvas-wrap" className={canvasClassNames}>
                             <div id="dragHandle" className={style.dragHandle} style={dragHandleStyle}></div>
                             <div style={canvasStyle} id="appCanvas" className={style.canvasCore}>
-                                <div className={style.elementWrapper}>
+                                <div className={elementWrapperClassNames.join(' ')}>
                                 {backgroundImageElement}
                                 {pageData.elements.links.map(createLinks)}
                                 </div>
@@ -142,6 +170,12 @@ export default class Canvas extends React.Component{
                 allowDragCanvas: true 
             })
             e.preventDefault()
+        }
+
+        if (keyCode === 72 && !isInput) {
+            this.setState({
+                hightlightElements: !this.state.hightlightElements
+            })
         }
 
         if (keyCode === 65) {
@@ -270,9 +304,10 @@ export default class Canvas extends React.Component{
             this.props.actions.addElement({
                 element_type, element
             })
+
             this.props.actions.selectElement({
                 'type': element_type,
-                'index': this.props.pageData.elements[element_type].length - 1
+                'index': this.props.pageData.elements[element_type].length
             })
 
         }

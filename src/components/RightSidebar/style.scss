@@ -11,6 +11,9 @@
 }
 .option-group{
     border-bottom: 10px solid #f8f7f6;
+    &:last-child{
+        border-bottom: none;
+    }
 }
 .option-caption{
     position: relative;
@@ -58,6 +61,7 @@
     height: 32px;
     margin: 5px 0 10px 0;
     padding: 0 5px;
+    font-family: Monaco, 'Terminal';
     border: 1px solid #d9d9d9;
     border-radius: 6px;
     &:focus{

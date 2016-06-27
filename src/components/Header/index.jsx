@@ -14,7 +14,7 @@ export default class Header extends Component {
             <header className={style.appHeader}>
                 <img className={style.logo} src="./assets/swallow.png"/>
                 <div className={style.headerBtns}>
-                    <button className={style.btnClear}><Icon type="reload" /> 清空</button>
+                    <button className={style.btnClear} onClick={() => this.__clear()}><Icon type="reload" /> 清空</button>
                     <button className={style.btnSave}><Icon type="save" /> 保存</button>
                     <button className={style.btnPreview}><Icon type="eye-o" /> 预览</button>
                     <button className={style.btnPublish}><Icon type="check" /> 发布</button>
@@ -25,6 +25,14 @@ export default class Header extends Component {
                 </div>
             </header>
         )
+
+    }
+
+    __clear() {
+
+        if (confirm('确认清空画布么?')) {
+            this.props.actions.clearPageData()
+        }
 
     }
 
