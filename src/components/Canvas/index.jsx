@@ -226,10 +226,10 @@ export default class Canvas extends React.Component{
     }
 
     __deleteCurrentElement() {
-        this.props.actions.deleteElement({
-            type: this.props.editorState.currentElement.type,
-            index: this.props.editorState.currentElement.index,
-        })
+
+        let { type, index } = this.props.editorState.currentElement
+        ;(type !== null && index !== null) && this.props.actions.deleteElement({ type, index })
+        
     }
 
     __startResizeElement(e, type, index) {
@@ -294,7 +294,6 @@ export default class Canvas extends React.Component{
                 width: this.state.tempElement.width / this.state.scale,
                 height: this.state.tempElement.height / this.state.scale,
                 'target': '_self',
-                'protocol': 'http',
                 'url': '' 
             }
 

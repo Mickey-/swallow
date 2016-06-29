@@ -9,13 +9,23 @@
     background-color: #fff;
     border-left: 1px solid #eee;
 }
-.option-group{
+
+.widget{
     border-bottom: 10px solid #f8f7f6;
     &:last-child{
         border-bottom: none;
     }
 }
-.option-caption{
+.hide-widget{
+    .widget-caption{
+        margin-bottom: 0;
+    }
+    .widget-body{
+        display: none;
+    }
+}
+
+.widget-caption{
     position: relative;
     height: 40px;
     margin: 0 0 10px 0;
@@ -26,7 +36,7 @@
     font-weight: bold;
     border-bottom: 1px solid #eee;
 }
-.toggleGroup{
+.toggle-widget{
     position: absolute;
     right: 0;
     top: 0;
@@ -41,7 +51,7 @@
     background-color: #eee;
     clear: both;
 }
-.option-body{
+.widget-body{
     padding: 0 20px;
 }
 .opiton-label{

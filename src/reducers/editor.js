@@ -8,10 +8,10 @@ const initialState = {
         'backgroundImageName': '', //背景图名称 varchar
         'backgroundImageData': '', //背景图base64数据 long text
         'backgroundColor': '#ffffff', //背景颜色 varchar
-        'wxImage': '', //微信分享图标地址 varchar
-        'wxTitle': '', //微信分享标题 varchar
-        'wxDesc': '', //微信分享描述 varchar
-        'baiduStatistics': '', //百度统计代码 text
+        'shareImage': '', //微信分享图标地址 varchar
+        'shareTitle': '', //微信分享标题 varchar
+        'shareDesc': '', //微信分享描述 varchar
+        'statistics': '', //百度统计代码 text
         'elements': { // 页面元素
             'links': []
         }
@@ -107,8 +107,12 @@ export default handleActions({
     },
 
     'clearPageData' (state) {
-        console.log(state, initialState)
-        return Object.assign({}, initialState)
+
+        let pageData = Object.assign({}, initialState.pageData)
+        pageData.layout = state.pageData.layout
+
+        return Object.assign({}, initialState, { pageData })
+
     }
 
 }, initialState)
