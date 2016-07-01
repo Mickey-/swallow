@@ -28,7 +28,7 @@ export default class LinkOption extends React.Component{
 
         let { type, index, show } = this.state
 
-        if (type === null || index === null) {
+        if (type !== 'links' || type === null || index === null) {
             return null
         }
 
@@ -42,7 +42,7 @@ export default class LinkOption extends React.Component{
         let widgetClassNames = [style.widget]
         !this.state.show && widgetClassNames.push(style.hideWidget)
 
-        const appInnerLinks = ['优惠券页面', '订单列表页面', '信用钱包页面', '花不完页面']
+        let appInnerLinks = ['优惠券页面', '订单列表页面', '信用钱包页面', '花不完页面']
         const getAPPInnerLink = (link) => {
 
             if (appInnerLinks.some((item) => {
@@ -55,6 +55,20 @@ export default class LinkOption extends React.Component{
 
         }
 
+        let appInnerLinksSelector = null
+        if (this.props.pageData.layout === 'mobile') {
+            appInnerLinksSelector = (
+                <Select className={style.selectOption} size="large" onChange={(value) => this.__updateElementData('url', value)} defaultValue="null" value={getAPPInnerLink(element.url)}>
+                    <Option key="0" value="null">无</Option>
+                    {appInnerLinks.map((item) => {
+                        return (
+                            <Option key={index + 1} value={item}>{item}</Option>
+                        )
+                    })}
+                </Select>
+            )
+        }
+
         return (
             <div className={widgetClassNames.join(' ')}>
                 <h5 className={style.widgetCaption}>链接属性<span onClick={() => this.__toggleWidget('element')} className={style.toggleWidget}>{toggleIcon}</span></h5>
@@ -62,15 +76,8 @@ export default class LinkOption extends React.Component{
                     <div>
                         <label className={style.opitonLabel}>链接地址</label>
                         <input type="text" onChange={(e) => this.__updateElementData('url', e.currentTarget.value)} defalutValue="" value={element.url !== 'null' ? element.url : ''} className={style.textOption}/>
-                        <label className={style.opitonLabel}>链接到APP页面</label>
-                        <Select className={style.selectOption} size="large" onChange={(value) => this.__updateElementData('url', value)} defaultValue="null" value={getAPPInnerLink(element.url)}>
-                            <Option key="0" value="null">无</Option>
-                            {appInnerLinks.map((item) => {
-                                return (
-                                    <Option key={index + 1} value={item}>{item}</Option>
-                                )
-                            })}
-                        </Select>
+                        <label data-if-layout="mobile" className={style.opitonLabel}>链接到APP页面</label>
+                        {appInnerLinksSelector}
                         <div className={style.groupLine}></div>
                         <label className={style.opitonLabel}>打开方式</label>
                         <Select className={style.selectOption} size="large" onChange={(value) => this.__updateElementData('target', value)} defaultValue="_self" value={element.target}>

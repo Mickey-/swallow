@@ -47,12 +47,12 @@ export default class LinkOption extends React.Component{
                     <input type="text" value={pageData.backgroundColor} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} style={{fontWeight: 'bold'}} className={style.textOption}/>
                     <input type="color" value={pageData.backgroundColor} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} className={style.textOption}/>
                     <div className={style.groupLine}></div>
-                    <label className={style.opitonLabel}>分享图标</label>
-                    <input type="text" defaultValue={pageData.shareImage} onChange={(e) => this.__updatePageData('shareImage', e.currentTarget.value)} className={style.textOption}/>
-                    <label className={style.opitonLabel}>分享标题</label>
-                    <input type="text" defaultValue={pageData.shareTitle} onChange={(e) => this.__updatePageData('shareTitle', e.currentTarget.value)} className={style.textOption}/>
-                    <label className={style.opitonLabel}>分享描述</label>
-                    <textarea defaultValue={pageData.shareDesc} onChange={(e) => this.__updatePageData('shareDesc', e.currentTarget.value)} className={[style.textOption, style.textarea].join(' ')}></textarea>
+                    <label data-if-layout="mobile" className={style.opitonLabel}>分享图标</label>
+                    <input data-if-layout="mobile" type="text" defaultValue={pageData.shareImage} onChange={(e) => this.__updatePageData('shareImage', e.currentTarget.value)} className={style.textOption}/>
+                    <label data-if-layout="mobile" className={style.opitonLabel}>分享标题</label>
+                    <input data-if-layout="mobile" type="text" defaultValue={pageData.shareTitle} onChange={(e) => this.__updatePageData('shareTitle', e.currentTarget.value)} className={style.textOption}/>
+                    <label data-if-layout="mobile" className={style.opitonLabel}>分享描述</label>
+                    <textarea data-if-layout="mobile" defaultValue={pageData.shareDesc} onChange={(e) => this.__updatePageData('shareDesc', e.currentTarget.value)} className={[style.textOption, style.textarea].join(' ')}></textarea>
                     <label className={style.opitonLabel}>统计代码</label>
                     <textarea defaultValue={pageData.statistics} onChange={(e) => this.__updatePageData('statistics', e.currentTarget.value)} className={[style.textOption, style.textarea].join(' ')}></textarea>
                 </div>

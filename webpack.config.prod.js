@@ -20,7 +20,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, './dist'),
         filename: '[name].[hash:5].js',
-        publicPath: 'http://localhost/'  //TODO modify to http://fecdn.59store.com/
+        publicPath: './'  //TODO modify to http://fecdn.59store.com/
     },
     module: {
         loaders: [
@@ -46,6 +46,7 @@ module.exports = {
                     'babel-loader'
                 ]
             },
+            {test: /\.tpl$/, loader: 'html-tpl?minimize=false&collapseWhitespace=false'},
             {test: /\.json$/, loader: 'json-loader'},
             {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192&name=[name]_[hash:5].[ext]'}
         ]

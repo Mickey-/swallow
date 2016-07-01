@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { Icon } from 'antd'
 import { Link } from 'react-router'
+import Previewer from '../Previewer'
+import { buildTemplate } from '../../functions' 
 import style from './style.scss'
 
 export default class Header extends Component {
@@ -12,11 +15,11 @@ export default class Header extends Component {
 
         return (
             <header className={style.appHeader}>
-                <img className={style.logo} src="./assets/swallow.png"/>
+                <div className={style.logo}></div>
                 <div className={style.headerBtns}>
                     <button className={style.btnClear} onClick={() => this.__clear()}><Icon type="reload" /> 清空</button>
                     <button className={style.btnSave}><Icon type="save" /> 保存</button>
-                    <button className={style.btnPreview}><Icon type="eye-o" /> 预览</button>
+                    <button className={style.btnPreview} onClick={() => this.__preview()}><Icon type="eye-o" /> 预览</button>
                     <button className={style.btnPublish}><Icon type="check" /> 发布</button>
                 </div>
                 <div className={style.caption}>
@@ -25,6 +28,27 @@ export default class Header extends Component {
                 </div>
             </header>
         )
+
+    }
+
+    __preview() {
+
+        let deviceTtype = this.props.pageData.layout
+        let html = buildTemplate(this.props.pageData, deviceTtype)
+        this.props.actions.fillHTML(html)
+
+        if (deviceTtype === 'mobile') {
+            ReactDOM.render(<Previewer html={html}/>, document.getElementById('mobilePreview'))
+        } else {
+
+            if (!window.__previewWindow__ || window.__previewWindow__.closed) {
+                window.__previewWindow__ = window.open()
+            }
+
+            window.__previewWindow__.focus()
+            window.__previewWindow__.document.write(html)
+
+        }
 
     }
 

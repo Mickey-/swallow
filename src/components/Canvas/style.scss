@@ -75,7 +75,7 @@
     position: absolute;
     z-index: 889;
     resize: both;
-    // border: solid 1px rgba(#000, .5);
+    border: solid 1px transparent;
     outline: solid 1px rgba(#3498db, .6);
     outline-offset: -1px;
     background-clip: padding-box;
@@ -98,7 +98,8 @@
     cursor: se-resize;
 }
 .highlight .link-element{
-    outline-color: rgba(#f39c12, .6);
+    border: solid 1px #000;
+    outline: dashed 1px #f39c12;
     background-color: rgba(#f39c12, .1);
     .link-resize-handle{
         background-color: rgba(#f39c12, .2);

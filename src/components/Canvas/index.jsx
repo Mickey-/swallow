@@ -103,7 +103,7 @@ export default class Canvas extends React.Component{
         }
         let position = this.state.position
         let dragHandleStyle = this.state.allowDragCanvas ? {display:'block',transform: 'scale(' + this.state.scale + ')'} : {display:'none'}
-        let backgroundImageElement = pageData.backgroundImageData ? <img draggable="false" className={style.backgroundImageElement} src={pageData.backgroundImageData}/> : null
+        let backgroundImageElement = pageData.backgroundImageData ? <img onLoad={(e) => this.__updatePageData('pageHeight', e.currentTarget.naturalHeight)} draggable="false" className={style.backgroundImageElement} src={pageData.backgroundImageData}/> : null
 
         let elementWrapperClassNames = [style.elementWrapper]
         this.state.hightlightElements && elementWrapperClassNames.push(style.highlight)
@@ -143,8 +143,8 @@ export default class Canvas extends React.Component{
                             <div id="dragHandle" className={style.dragHandle} style={dragHandleStyle}></div>
                             <div style={canvasStyle} id="appCanvas" className={style.canvasCore}>
                                 <div className={elementWrapperClassNames.join(' ')}>
-                                {backgroundImageElement}
-                                {pageData.elements.links.map(createLinks)}
+                                    {backgroundImageElement}
+                                    {pageData.elements.links.map(createLinks)}
                                 </div>
                             </div>
                         </div>
@@ -156,6 +156,14 @@ export default class Canvas extends React.Component{
                 </div>
             </div>
         )
+
+    }
+
+    __updatePageData(name, value) {
+
+        var tempData = {}
+        tempData[name] = value
+        this.props.actions.updatePageData(tempData)
 
     }
 

@@ -1,0 +1,56 @@
+.preview-wrap{
+    position: absolute;
+    z-index: 99999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.mask{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(#fff, .95);
+}
+.btnExit{
+    position: absolute;
+    z-index: 3;
+    top: 30px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+    color: #900;
+    font-size: 32px;
+    border-radius: 5px;
+    &:hover{
+        color: #c00;
+    }
+}
+.ifram-wrap{
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 470px;
+    height: 100%;
+    margin: auto;
+    background-image: url(../../assets/mockups/iphone6.png);
+    background-position: 50% 50px;
+    background-repeat: no-repeat;
+    background-size: 470px auto;
+    transform: scale(.8);
+}
+.preview-iframe{
+    width: 375px;
+    height: 667px;
+    margin: 165px 0 0 35.5px;
+    padding: 0;
+    overflow: auto;
+    border: none;
+}

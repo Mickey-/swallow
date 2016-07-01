@@ -5,6 +5,7 @@ const initialState = {
         'layout': 'mobile', //页面布局类型 varchar
         'title': '', //页面标题 varchar
         'pathname': '', //页面路径名 varchar
+        'pageHeight': 0,
         'backgroundImageName': '', //背景图名称 varchar
         'backgroundImageData': '', //背景图base64数据 long text
         'backgroundColor': '#ffffff', //背景颜色 varchar
@@ -112,6 +113,13 @@ export default handleActions({
         pageData.layout = state.pageData.layout
 
         return Object.assign({}, initialState, { pageData })
+
+    },
+
+    'fillHTML' (state, action) {
+
+        let html = action.payload.html
+        return Object.assign({}, state, { html })
 
     }
 

@@ -10,6 +10,11 @@
     border-left: 1px solid #eee;
 }
 
+[data-layout="pc"] [data-if-layout="mobile"],
+[data-layout="mobile"] [data-if-layout="pc"] {
+    display: none;
+}
+
 .widget{
     border-bottom: 10px solid #f8f7f6;
     &:last-child{
