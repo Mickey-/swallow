@@ -98,8 +98,9 @@
     cursor: se-resize;
 }
 .highlight .link-element{
-    border: solid 1px #000;
-    outline: dashed 1px #f39c12;
+    border: solid 3px #000;
+    outline: dashed 3px #f39c12;
+    outline-offset: -3px;
     background-color: rgba(#f39c12, .1);
     .link-resize-handle{
         background-color: rgba(#f39c12, .2);

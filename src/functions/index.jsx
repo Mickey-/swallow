@@ -23,9 +23,32 @@ export const parseRemStyle = (style) => {
     ].join('')
 }
 
+export const parseAppInnerLink = (href) => {
+
+    let appInnerLinks = ['优惠券页面', '订单列表页面', '信用钱包页面', '花不完页面']
+
+    if (appInnerLinks.indexOf(href) !== -1) {
+        return 'javascript:void(0);" data-app-link="' + href
+    } else {
+        return href
+    }
+
+}
+
 export const buildTemplate = (data, type = 'mobile') => {
-console.log(data)
-    data.parseStyle = type === 'mobile' ? parseRemStyle : parsePxStyle
-    return type === 'mobile' ? MobileTpl(data) : PCTpl(data)
+
+    if (type === 'mobile') {
+
+        data.parseStyle = parseRemStyle
+        data.parseAppInnerLink = parseAppInnerLink
+
+        return MobileTpl(data)
+
+    } else {
+
+        data.parseStyle = parsePxStyle
+        return PCTpl(data)
+
+    }
 
 }

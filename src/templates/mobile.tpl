@@ -36,7 +36,7 @@ body{
 <div class="container">
     <div class="elements">
         <%if(backgroundImageData){%><img src="<%=backgroundImageData%>" alt="<%=backgroundImageName%>" class="background-image"><%}%>
-        <% elements.links.forEach(function(link){ %><a class="link-element" style="<%=parseStyle(link)%>" href="<%=link.url%>" target="<%=link.target%>"></a><% })%>
+        <%elements.links.forEach(function(link){ %><a class="link-element" style="<%=parseStyle(link)%>" href="<%=parseAppInnerLink(link.url)%>" target="<%=link.target%>"></a><% })%>
     </div>
 </div>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
@@ -48,10 +48,43 @@ body{
     var browser = null;
     var ua = navigator.userAgent.toLowerCase();
     var links = document.querySelectorAll('a');
+    var appLinks = document.querySelectorAll('[data-app-link]')
+    var appLinkFuncs = {
+        '优惠券页面': function() {
+            HXSJSBridge.pushMyCouponView()
+        },
+        '订单列表页面': function() {
+            HXSJSBridge.openOrderListView(4)
+        },
+        '信用钱包页面': function() {
+            HXSJSBridge.openCreditPayView()
+        },
+        '花不完页面': function() {
+            HXSJSBridge.openCreditCardView()
+        }
+    }
 
-    token !== null && (token = 'APP') && links.forEach(function(link) {
+    if (token) {
+        browser = 'APP';
+    }
+
+    links.forEach(function(link) {
 
         var href = link.href;
+
+        if (link.dataset.appLink) {
+
+            link.addEventListener('click', function() {
+                appLinkFuncs[this.dataset.appLink] && appLinkFuncs[this.dataset.appLink]();
+            });
+
+            return
+
+        }
+
+        if (href === 'javascript:void(0);' || browser !== 'APP') {
+            return
+        }
 
         if (href.indexOf('?') === -1) {
 
