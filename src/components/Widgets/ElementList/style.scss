@@ -1,0 +1,21 @@
+.element-list{
+    max-height: 200px;
+    overflow: auto;
+    margin: -10px -20px 0 -20px;
+    li{
+        height: 40px;
+        padding: 0 20px;
+        line-height: 40px;
+        overflow: hidden;
+        border-bottom: 1px solid #eee;
+        cursor: default;
+        &.active-item{
+            color: #fff;
+            background-color: #3498DB;
+        }
+    }
+}
+.link-url{
+    padding: 0 10px;
+    font-size: 12px;
+}
