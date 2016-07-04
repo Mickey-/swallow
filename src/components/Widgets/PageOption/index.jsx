@@ -24,7 +24,7 @@ export default class LinkOption extends React.Component{
 
         return (
             <div className={widgetClassNames.join(' ')} data-show={this.state.show}>
-                <h5 className={style.widgetCaption}>页面属性<span onClick={() => this.__toggleWidget('global')} className={style.toggleWidget}>{toggleIcon}</span></h5>
+                <h5 onClick={() => this.__toggleWidget()} className={style.widgetCaption}>页面属性<span className={style.toggleWidget}>{toggleIcon}</span></h5>
                 <div className={style.widgetBody}>
                     <label className={style.opitonLabel}>页面类型</label>
                     <Select className={style.selectOption} size="large" onChange={(value) => this.__updatePageData('layout', value)} defaultValue="mobile" value={pageData.layout}>

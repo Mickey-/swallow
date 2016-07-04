@@ -15,7 +15,7 @@
     left: 0;
     background-color: rgba(#fff, .95);
 }
-.btnExit{
+.btn-exit{
     position: absolute;
     z-index: 3;
     top: 30px;
@@ -40,6 +40,7 @@
     width: 470px;
     height: 100%;
     margin: auto;
+    overflow: hidden;
     background-image: url(../../assets/mockups/iphone6.png);
     background-position: 50% 50px;
     background-repeat: no-repeat;

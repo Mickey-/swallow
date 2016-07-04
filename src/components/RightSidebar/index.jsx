@@ -13,8 +13,8 @@ export default class RightSidebar extends React.Component{
 
         return (
             <div className={style.rightSidebar} data-layout={pageData.layout}>
-                <PageOption pageData={pageData} editorState={editorState} actions={actions} />
                 <LinkOption pageData={pageData} editorState={editorState} actions={actions} />
+                <PageOption pageData={pageData} editorState={editorState} actions={actions} />
             </div>
         )
 

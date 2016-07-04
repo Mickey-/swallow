@@ -71,7 +71,7 @@ export default class LinkOption extends React.Component{
 
         return (
             <div className={widgetClassNames.join(' ')}>
-                <h5 className={style.widgetCaption}>链接属性<span onClick={() => this.__toggleWidget('element')} className={style.toggleWidget}>{toggleIcon}</span></h5>
+                <h5 onClick={() => this.__toggleWidget()} className={style.widgetCaption}>链接属性<span className={style.toggleWidget}>{toggleIcon}</span></h5>
                 <div className={style.widgetBody}>
                     <div>
                         <label className={style.opitonLabel}>链接地址</label>

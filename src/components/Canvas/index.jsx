@@ -173,7 +173,7 @@ export default class Canvas extends React.Component{
         let nodeName = e.target.nodeName.toLowerCase()
         let isInput = (nodeName === 'input' || nodeName === 'textarea')
 
-        if (keyCode === 32) {
+        if (keyCode === 32 && !isInput) {
             this.setState({
                 allowDragCanvas: true 
             })
