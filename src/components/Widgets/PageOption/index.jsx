@@ -1,5 +1,6 @@
 import React from 'react'
 import { Icon, Select } from 'antd'
+import { uploadFile } from '../../../io'
 import style from '../../RightSidebar/style.scss'
 
 const Option = Select.Option
@@ -20,7 +21,20 @@ export default class LinkOption extends React.Component{
         let toggleIcon = !this.state.show ? <Icon type="up" /> : <Icon type="down" />
         let pageData = this.props.pageData
         let widgetClassNames = [style.widget]
+        let addBackgroundBtn = pageData.background.length < 10 ? <button onClick={() => this.__addBackground()} className={style.fullWidthBtn}><Icon type="picture" /> 增加背景图片</button> : null
         !this.state.show && widgetClassNames.push(style.hideWidget)
+
+        const createBackgroundSelector = (item, index) => {
+
+            return (
+                <div key={index} className={style.fileOptionWrap}>
+                    <button onClick={() => this.__removeBackground(index)} className={style.clearFile}><Icon type="delete" /></button>
+                    <input onChange={(e) => this.__changeBackground(e, index)} type="file"/>
+                    <span className={style.selectedFileName}><Icon type="picture" /> {item.name || '选择图片'}</span>
+                </div>
+            )
+
+        }
 
         return (
             <div className={widgetClassNames.join(' ')} data-show={this.state.show}>
@@ -38,11 +52,9 @@ export default class LinkOption extends React.Component{
                     <input type="text" onChange={(e) => this.__updatePageData('pathname', e.currentTarget.value)} defaultValue={pageData.pathname} className={style.textOption}/>
                     <div className={style.groupLine}></div>
                     <label className={style.opitonLabel}>背景图片</label>
-                    <div className={style.fileOptionWrap}>
-                        <button onClick={() => this.__clearBackgroundImage()} className={style.clearFile}><Icon type="delete" /></button>
-                        <input onChange={(e) => this.__convertImage(e)} type="file"/>
-                        <span className={style.selectedFileName}><Icon type="picture" /> {pageData.backgroundImageName || '选择图片'}</span>
-                    </div>
+                    {pageData.background.map(createBackgroundSelector)}
+                    {addBackgroundBtn}
+                    <div className={style.groupLine}></div>
                     <label className={style.opitonLabel}>背景颜色</label>
                     <input type="text" value={pageData.backgroundColor} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} style={{fontWeight: 'bold'}} className={style.textOption}/>
                     <input type="color" value={pageData.backgroundColor} onChange={(e) => this.__updatePageData('backgroundColor', e.currentTarget.value)} className={style.textOption}/>
@@ -77,14 +89,27 @@ export default class LinkOption extends React.Component{
 
     }
 
-    __clearBackgroundImage() {
+    __removeBackground(index) {
 
-        this.__updatePageData('backgroundImageData', '')
-        this.__updatePageData('backgroundImageName', '')
+        this.props.actions.removeBackground(index)
 
     }
 
-    __convertImage(e) {
+    __addBackground() {
+
+        if (this.props.pageData.background.length >= 10) {
+            return false
+        }
+
+        this.props.actions.addBackground({
+            'name': null,
+            'data': null,
+            'height': 0,
+            'url': null
+        })
+    }
+
+    __changeBackground(e, index) {
 
         var file = e.currentTarget.files[0];
         var imageType = /image.*/;
@@ -92,11 +117,26 @@ export default class LinkOption extends React.Component{
         if (file && file.type.match(imageType)) {
             var reader = new FileReader();
             reader.onload = (e) => {
-                this.__updatePageData('backgroundImageData', reader.result)
+                this.props.actions.updateBackground({ index, data: {
+                    name: '[' + Math.round(file.size/1024) + 'KB]' + file.name,
+                    data: reader.result
+                }})
             }
-            this.__updatePageData('backgroundImageName', '[' + Math.round(file.size/1024) + 'KB]' + file.name)
-            reader.readAsDataURL(file); 
+            reader.readAsDataURL(file);
+            uploadFile(file, {
+                onprogress: (data) => {
+                    console.log(data)
+                },
+                onupload: (data) => {
+                    console.log(data)
+                },
+                onerror: (e) => {
+                    console.log(e)
+                }
+            })
 
+        } else if(file.size > 1024 * 1000 * 2) {
+            console.log('文件尺寸不能超过2M')
         } else {
             console.log('文件格式不支持')
         }

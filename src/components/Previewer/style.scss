@@ -26,9 +26,28 @@
     color: #900;
     font-size: 32px;
     border-radius: 5px;
+    cursor: pointer;
     &:hover{
         color: #c00;
     }
+}
+.save-page{
+    position: absolute;
+    z-index: 3;
+    top: 30px;
+    right: 98px;
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+    color: #4a98db;
+    font-size: 28px;
+    line-height: 48px;
+    text-align: center;
+    border-radius: 5px;
+    &:hover{
+        color: #4a98db - 30;
+    }
+
 }
 .ifram-wrap{
     position: absolute;
@@ -47,6 +66,7 @@
     background-size: 470px auto;
     transform: scale(.8);
 }
+
 .preview-iframe{
     width: 375px;
     height: 667px;

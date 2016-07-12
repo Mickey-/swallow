@@ -15,7 +15,20 @@
         }
     }
 }
+.element-list{
+    &::-webkit-scrollbar {
+        width: 10px;
+        background-color: #eee;
+    }
+    &::-webkit-scrollbar-thumb {
+        height: 5px;
+        background-color: #ccc;
+        border-radius: 5px;
+    }
+}
 .link-url{
     padding: 0 10px;
     font-size: 12px;
+    word-wrap: break-word;
+    word-break: break-all;
 }

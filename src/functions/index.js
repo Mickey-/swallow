@@ -1,11 +1,11 @@
 import MobileTpl from '../templates/mobile.tpl'
 import PCTpl from '../templates/pc.tpl'
 
-export const px2rem = (px) => {
+const px2rem = (px) => {
     return px * 2 / 46.875 + 'rem'
 }
 
-export const parsePxStyle = (style) => {
+const parsePxStyle = (style) => {
     return [
         'width:' + style.width + 'px;',
         'height:' + style.height + 'px;',
@@ -14,7 +14,7 @@ export const parsePxStyle = (style) => {
     ].join('')
 }
 
-export const parseRemStyle = (style) => {
+const parseRemStyle = (style) => {
     return [
         'width:' + px2rem(style.width) + ';',
         'height:' + px2rem(style.height) + ';',
@@ -23,7 +23,7 @@ export const parseRemStyle = (style) => {
     ].join('')
 }
 
-export const parseAppInnerLink = (href) => {
+const parseAppInnerLink = (href) => {
 
     let appInnerLinks = ['优惠券页面', '订单列表页面', '信用钱包页面', '花不完页面']
 
@@ -32,6 +32,32 @@ export const parseAppInnerLink = (href) => {
     } else {
         return href
     }
+
+}
+
+const getBackgroundImageTop = (images, index) => {
+
+    var top = 0
+    var temp = images.slice(0, index)
+    temp.forEach((item) => {
+        top += item.height
+    })
+
+    return top
+
+}
+
+export const JSON2URL = (json) => {
+
+    var return_url = ''
+
+    for (var item in json) {
+        if (json.hasOwnProperty(item)) {
+            return_url += ('&' + item + '=' + json[item])
+        }
+    }
+
+    return return_url
 
 }
 
@@ -47,6 +73,7 @@ export const buildTemplate = (data, type = 'mobile') => {
     } else {
 
         data.parseStyle = parsePxStyle
+        data.getTop = getBackgroundImageTop
         return PCTpl(data)
 
     }

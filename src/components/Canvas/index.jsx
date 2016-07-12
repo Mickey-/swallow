@@ -103,10 +103,20 @@ export default class Canvas extends React.Component{
         }
         let position = this.state.position
         let dragHandleStyle = this.state.allowDragCanvas ? {display:'block',transform: 'scale(' + this.state.scale + ')'} : {display:'none'}
-        let backgroundImageElement = pageData.backgroundImageData ? <img onLoad={(e) => this.__updatePageData('pageHeight', e.currentTarget.naturalHeight)} draggable="false" className={style.backgroundImageElement} src={pageData.backgroundImageData}/> : null
+        let backgroundImageElement = null
 
         let elementWrapperClassNames = [style.elementWrapper]
         this.state.hightlightElements && elementWrapperClassNames.push(style.highlight)
+
+        const createBackgrounds = (item, index) => {
+
+            if (item.data || item.url) {
+                return <img key={index} onLoad={(e) => this.__updateBackgroundImageHeight(index, e.currentTarget.naturalHeight)} draggable="false" className={style.backgroundImageElement} src={item.data || item.url}/>
+            } else {
+                return null
+            }
+
+        }
 
         const createLinks = (item, index) => {
 
@@ -143,7 +153,7 @@ export default class Canvas extends React.Component{
                             <div id="dragHandle" className={style.dragHandle} style={dragHandleStyle}></div>
                             <div style={canvasStyle} id="appCanvas" className={style.canvasCore}>
                                 <div className={elementWrapperClassNames.join(' ')}>
-                                    {backgroundImageElement}
+                                    {pageData.background.map(createBackgrounds)}
                                     {pageData.elements.links.map(createLinks)}
                                 </div>
                             </div>
@@ -227,6 +237,10 @@ export default class Canvas extends React.Component{
             }
         })
 
+    }
+
+    __updateBackgroundImageHeight(index, height) {
+        this.props.actions.updateBackground({index, data:{height}})
     }
 
     __selectElement(type, index) {

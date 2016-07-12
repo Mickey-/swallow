@@ -18,12 +18,9 @@ body{
 .background-element{
     position: absolute;
     z-index: 0;
-    top: 0;
     left: 0;
     width: 100%;
     min-width: 1200px;
-    height: <%=pageHeight%>px;
-    background-image: url(<%=backgroundImageData%>);
     background-position: 50% 0;
     background-repeat: no-repeat;
 }
@@ -36,7 +33,7 @@ body{
 </head>
 <body>
 <div class="elements">
-    <div class="background-element"></div>
+    <%background.forEach(function(img, index) {%><div class="background-element" style="top:<%=getTop(background, index)%>px;height:<%=img.height%>px;background-image:url(<%=(img.data||img.url)%>);"></div><% top += img.top;})%>
     <% elements.links.forEach(function(link){ %><a class="link-element" style="<%=parseStyle(link)%>" href="<%=link.url%>" target="<%=link.target%>"></a><% })%>
 </div>
 <%=statistics%>   
