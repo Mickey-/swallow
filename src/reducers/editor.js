@@ -57,12 +57,11 @@ export default handleActions({
 
     'addBackground' (state, action) {
 
-        let editorState = Object.assign({}, state.editorState, {unsave: true})
         let background = [ ...state.pageData.background ]
         background.push(action.payload)
         let pageData = Object.assign({}, state.pageData, { background })
 
-        return Object.assign({}, state, { pageData }, {editorState})
+        return Object.assign({}, state, { pageData })
 
     },
 

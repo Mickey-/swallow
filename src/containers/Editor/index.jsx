@@ -1,6 +1,6 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
-import { connect} from 'react-redux'
+import { connect } from 'react-redux'
 import Header from '../../components/Header'
 import LeftSidebar from '../../components/LeftSidebar'
 import Canvas from '../../components/Canvas'
