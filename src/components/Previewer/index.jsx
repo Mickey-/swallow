@@ -9,7 +9,6 @@ export default class Previewer extends React.Component {
     render() {
 
         let src = 'data:text/html;base64,' + Base64.encode(this.props.html)
-
         return (
             <div className={style.previewWrap}>
                 <div className={style.mask}></div>

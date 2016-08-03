@@ -1,5 +1,5 @@
 import { JSON2URL } from '../functions'
-
+import * as config from '../config.json'
 
 // IO接口配置
 const SERVER = './api'
@@ -22,7 +22,7 @@ const fetch = (url, data = {}, method = 'GET', timeout = 5000) => {
         let xhr = new XMLHttpRequest
         xhr.timeout = timeout
 
-        if (method.toLowerCase() !== 'GET') {
+        if (method.toLowerCase() !== 'get') {
             xhr.open(method, url, true)
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
             xhr.send(JSON.stringify(data))
@@ -72,13 +72,25 @@ export const uploadFile = (file, option_in = {}) => {
     let option = Object.assign({}, {
         'onprogress': (progress) => {},
         'onerror': (e) => {},
-        'onupload': (data) => {}
+        'onupload': () => {}
     }, option_in)
 
     fd.append('file', file)
-    xhr.open("POST", API.upload_file, true)
-    xhr.upload.addEventListener("progress", option.onprogress, false)
-    xhr.addEventListener("load", option.onupload, false)
+    xhr.open("post", API.upload_file, true)
+    xhr.upload.addEventListener("progress", () => {option.onupload()}, false)
+    xhr.addEventListener("load", () => {
+        let data = xhr.responseText
+        try {
+            data = JSON.parse(data)
+            if (data.status === 0) {
+                option.onupload(data.data)
+            } else {
+                option.onerror(data)
+            }
+        } catch(e) {
+            option.onerror(e)
+        }
+    }, false)
     xhr.addEventListener("error", option.onerror, false)
     xhr.addEventListener("abort", option.onerror, false)
     xhr.send(fd)

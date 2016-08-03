@@ -47,6 +47,30 @@ const getBackgroundImageTop = (images, index) => {
 
 }
 
+const getBackgroundImageUrl = (image, release) => {
+
+    if (release) {
+        return image.data || image.releaseUrl
+    } else {
+        return image.data || image.url
+    }
+
+}
+
+export const validatePageData = (data) => {
+
+        if (data.title === null || data.title.trim().length === 0) {
+            return '页面标题不能为空'
+        }
+
+        if (data.pathname === null || data.pathname.trim().length === 0) {
+            return '访问路径不能为空'
+        }
+
+        return true
+
+}
+
 export const JSON2URL = (json) => {
 
     var return_url = ''
@@ -61,12 +85,30 @@ export const JSON2URL = (json) => {
 
 }
 
-export const buildTemplate = (data, type = 'mobile') => {
+export const findIndexById = (array, id) => {
+
+    return array.findIndex((item) => {
+        return item.id === id
+    })
+
+}
+
+export const guid = () => {
+
+    window.__SWALLOW_GUID__ = window.__SWALLOW_GUID__ || 0
+    window.__SWALLOW_GUID__ += 1
+    return window.__SWALLOW_GUID__
+
+}
+
+export const buildTemplate = (data, type = 'mobile', release = false) => {
 
     if (type === 'mobile') {
 
         data.parseStyle = parseRemStyle
         data.parseAppInnerLink = parseAppInnerLink
+        data.release = release
+        data.getBackgroundImageUrl = getBackgroundImageUrl
 
         return MobileTpl(data)
 
@@ -74,6 +116,8 @@ export const buildTemplate = (data, type = 'mobile') => {
 
         data.parseStyle = parsePxStyle
         data.getTop = getBackgroundImageTop
+        data.release = release
+        data.getBackgroundImageUrl = getBackgroundImageUrl
         return PCTpl(data)
 
     }

@@ -33,7 +33,7 @@ body{
 </head>
 <body>
 <div class="elements">
-    <%background.forEach(function(img, index) {%><div class="background-element" style="top:<%=getTop(background, index)%>px;height:<%=img.height%>px;background-image:url(<%=(img.data||img.url)%>);"></div><% top += img.top;})%>
+    <%background.forEach(function(img, index) {%><div class="background-element" style="top:<%=getTop(background, index)%>px;height:<%=img.height%>px;background-image:url(<%=getBackgroundImageUrl(img, release)%>);"></div><% top += img.top;})%>
     <% elements.links.forEach(function(link){ %><a class="link-element" style="<%=parseStyle(link)%>" href="<%=link.url%>" target="<%=link.target%>"></a><% })%>
 </div>
 <%=statistics%>   

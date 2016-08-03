@@ -14,3 +14,5 @@ export const selectElement = createAction('selectElement')
 export const updateElement = createAction('updateElement')
 export const deleteElement = createAction('deleteElement')
 export const fillHTML = createAction('fillHTML')
+
+export const addTempFile = createAction('addTempFile')

@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Icon } from 'antd'
 import { Link } from 'react-router'
+import { validatePageData, buildTemplate } from '../../functions' 
+import * as IO from '../../io'
 import Previewer from '../Previewer'
-import { buildTemplate } from '../../functions' 
 import style from './style.scss'
 
 export default class Header extends Component {
@@ -18,7 +19,7 @@ export default class Header extends Component {
                 <div className={style.logo}></div>
                 <div className={style.headerBtns}>
                     <button className={style.btnClear} onClick={() => this.__clear()}><Icon type="reload" /> 清空</button>
-                    <button className={style.btnSave}><Icon type="save" /> 保存</button>
+                    <button className={style.btnSave} onClick={() => this.__save()}><Icon type="save" /> 保存</button>
                     <button className={style.btnPreview} onClick={() => this.__preview()}><Icon type="eye-o" /> 预览</button>
                     <button className={style.btnPublish}><Icon type="check" /> 发布</button>
                 </div>
@@ -31,11 +32,42 @@ export default class Header extends Component {
 
     }
 
+    __save() {
+
+        let data = JSON.parse(JSON.stringify(this.props.pageData))
+        let result = validatePageData(data)
+
+        data.html = buildTemplate(data, data.layout, true)
+
+        if (result === true) {
+
+            if (data.id) {
+
+                console.log('更新海报')
+                IO.updatePoster(data.id, data, (res) => {
+                    console.log(res)
+                })
+
+            } else {
+
+                console.log('保存海报')
+                IO.savePoster(data, (res) => {
+                    console.log(res)
+                })
+
+            }
+
+        } else {
+            console.log(result)
+        }
+
+    }
+
     __preview() {
 
         let deviceTtype = this.props.pageData.layout
         let html = buildTemplate(this.props.pageData, deviceTtype)
-        this.props.actions.fillHTML(html)
+        //this.props.actions.fillHTML(html)
 
         if (deviceTtype === 'mobile') {
             ReactDOM.render(<Previewer html={html}/>, document.getElementById('mobilePreview'))

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Icon, Select } from 'antd'
+import { guid } from '../../../functions'
 import { uploadFile } from '../../../io'
+import * as config from '../../../config.json'
 import style from '../../RightSidebar/style.scss'
 
 const Option = Select.Option
@@ -24,11 +26,25 @@ export default class LinkOption extends React.Component{
         let addBackgroundBtn = pageData.background.length < 10 ? <button onClick={() => this.__addBackground()} className={style.fullWidthBtn}><Icon type="picture" /> 增加背景图片</button> : null
         !this.state.show && widgetClassNames.push(style.hideWidget)
 
-        const createBackgroundSelector = (item, index) => {
+        const createBackgroundSelector = (item, key) => {
+
+            let index = item.id
+            let rightBtn
+            let classNames = [style.fileOptionWrap]
+            if (item.uploading === 1) {
+                classNames.push(style.unclickable)
+                rightBtn = <button className={style.clearFile}><Icon type="loading" /></button>
+            } else {
+                rightBtn = <button onClick={() => this.__removeBackground(index)} className={style.clearFile}><Icon type="delete" /></button>
+            }
+
+            if (item.uploading === 2) {
+                classNames.push(style.uploadError)
+            }
 
             return (
-                <div key={index} className={style.fileOptionWrap}>
-                    <button onClick={() => this.__removeBackground(index)} className={style.clearFile}><Icon type="delete" /></button>
+                <div key={key} className={classNames.join(' ')}>
+                    {rightBtn}
                     <input onChange={(e) => this.__changeBackground(e, index)} type="file"/>
                     <span className={style.selectedFileName}><Icon type="picture" /> {item.name || '选择图片'}</span>
                 </div>
@@ -102,11 +118,13 @@ export default class LinkOption extends React.Component{
         }
 
         this.props.actions.addBackground({
+            'id': guid(),
             'name': null,
             'data': null,
             'height': 0,
             'url': null
         })
+
     }
 
     __changeBackground(e, index) {
@@ -118,20 +136,34 @@ export default class LinkOption extends React.Component{
             var reader = new FileReader();
             reader.onload = (e) => {
                 this.props.actions.updateBackground({ index, data: {
+                    uploading: 1,
                     name: '[' + Math.round(file.size/1024) + 'KB]' + file.name,
                     data: reader.result
                 }})
             }
             reader.readAsDataURL(file);
             uploadFile(file, {
-                onprogress: (data) => {
-                    console.log(data)
-                },
+                // onprogress: (data) => {
+                //     console.log(data)
+                // },
                 onupload: (data) => {
-                    console.log(data)
+                    if (!data) {
+                        return false
+                    }
+                    this.props.actions.updateBackground({ index, data: {
+                        data: null,
+                        url: config.APIURL + data.tempUrl,
+                        releaseUrl: data.releaseUrl,
+                        uploading: 0
+                    }})
+                    let tempFile = {}
+                    tempFile[data.tempUrl] = data.releaseUrl
+                    this.props.actions.addTempFile(tempFile)
                 },
                 onerror: (e) => {
-                    console.log(e)
+                    this.props.actions.updateBackground({ index, data: {
+                        uploading: 2
+                    }})
                 }
             })
 

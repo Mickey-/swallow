@@ -1,17 +1,14 @@
 import { handleActions } from 'redux-actions'
+import { findIndexById } from '../functions'
 
 const initialState = {
     'pageData': {
+        'id': null,
         'layout': 'mobile', //页面布局类型 varchar
         'title': '', //页面标题 varchar
         'pathname': '', //页面路径名 varchar
         'pageHeight': 0,
-        'background': [{
-            'name': null,
-            'url': null,
-            'height': 0,
-            'data': null
-        }],
+        'background': [],
         'backgroundColor': '#ffffff', //背景颜色 varchar
         'shareImage': '', //微信分享图标地址 varchar
         'shareTitle': '', //微信分享标题 varchar
@@ -19,7 +16,8 @@ const initialState = {
         'statistics': '', //百度统计代码 text
         'elements': { // 页面元素
             'links': []
-        }
+        },
+        tempFiles: []
     },
     'editorState' : {
         'lastSaveTime': 0, //上次保存时间 （秒级时间戳）int
@@ -48,7 +46,8 @@ export default handleActions({
 
         let editorState = Object.assign({}, state.editorState, {unsave: true})
         let background = [ ...state.pageData.background ]
-        background[action.payload.index] = Object.assign({}, background[action.payload.index], action.payload.data)
+        let index = findIndexById(background, action.payload.index)
+        background[index] = Object.assign({}, background[index], action.payload.data)
         let pageData = Object.assign({}, state.pageData, { background })
 
         return Object.assign({}, state, { pageData }, {editorState})
@@ -69,7 +68,9 @@ export default handleActions({
 
         let editorState = Object.assign({}, state.editorState, {unsave: true})
         let background = [ ...state.pageData.background ]
-        background.splice(action.payload, 1)
+        let index = findIndexById(background, action.payload)
+
+        background.splice(index, 1)
         let pageData = Object.assign({}, state.pageData, { background })
 
         return Object.assign({}, state, { pageData }, {editorState})
@@ -149,6 +150,16 @@ export default handleActions({
         pageData.layout = state.pageData.layout
 
         return Object.assign({}, initialState, { pageData })
+
+    },
+
+    'addTempFile' (state, action) {
+
+        let tempFiles = [ ...state.pageData.tempFiles ]
+        tempFiles.push(action.payload)
+        let pageData = Object.assign({}, state.pageData, { tempFiles })
+
+        return Object.assign({}, state, { pageData })
 
     },
 

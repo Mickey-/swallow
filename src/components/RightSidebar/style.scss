@@ -10,6 +10,10 @@
     border-left: 1px solid #eee;
 }
 
+.unclickable{
+    pointer-events: none;
+}
+
 [data-layout="pc"] [data-if-layout="mobile"],
 [data-layout="mobile"] [data-if-layout="pc"] {
     display: none;
@@ -147,6 +151,11 @@
         opacity: 0;
         &:hover + span{
             color: #3498DB;
+        }
+    }
+    &.upload-error{
+        span{
+            color: #E74C3C;
         }
     }
 }

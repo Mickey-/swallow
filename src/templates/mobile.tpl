@@ -37,7 +37,7 @@ body{
 <body>
 <div class="container">
     <div class="elements">
-        <%background.forEach(function(img) {%><img src="<%=(img.data || img.url)%>" alt="<%=img.name%>" class="background-image"><%})%>
+        <%background.forEach(function(img) {%><img src="<%=getBackgroundImageUrl(img, release)%>" alt="<%=img.name%>" class="background-image"><%})%>
         <%elements.links.forEach(function(link){ %><a class="link-element" style="<%=parseStyle(link)%>" href="<%=parseAppInnerLink(link.url)%>" target="<%=link.target%>"></a><% })%>
     </div>
 </div>
