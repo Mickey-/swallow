@@ -1,0 +1,57 @@
+[
+	{
+		"title": "id",
+		"dataIndex": "id",
+		"key": "id"
+	},
+	{
+		"title": "布局",
+		"dataIndex": "layout",
+		"key": "layout"
+	},
+	{
+		"title": "页面标题",
+		"dataIndex": "title",
+		"key": "title"
+	},
+	{
+		"title": "页面路径名",
+		"dataIndex": "pathname",
+		"key": "pathname"
+	},
+	{
+		"title": "背景图名称",
+		"dataIndex": "backgroundImageName",
+		"key": "backgroundImageName"
+	},
+	{
+		"title": "背景颜色",
+		"dataIndex": "backgroundColor",
+		"key": "backgroundColor"
+	},
+	{
+		"title": "分享图标地址",
+		"dataIndex": "shareImage",
+		"key": "shareImage"
+	},
+	{
+		"title": "分享标题",
+		"dataIndex": "shareTitle",
+		"key": "shareTitle"
+	},
+	{
+		"title": "分享描述",
+		"dataIndex": "shareDesc",
+		"key": "shareDesc"
+	},
+	{
+		"title": "统计代码",
+		"dataIndex": "statistics",
+		"key": "statistics"
+	},
+	{
+		"title": "创建时间",
+		"dataIndex": "createDate",
+		"key": "createDate"
+	}
+]

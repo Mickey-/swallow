@@ -1,0 +1,46 @@
+.operation{
+	a{
+		margin-right: 10px;
+		color: #797979;
+		cursor: pointer;
+	}
+}
+.content{
+	background: #edf1f5;
+	height: 100%;
+	padding: 20px;
+}
+.header{
+	background: #fff;
+	width: 100%;
+	padding: 15px 15px 25px;
+	h4{
+		float: left;
+		width: 500px;
+		color: rgba(0, 0, 0, 0.5);
+		font-weight: 600;
+		margin-top: 6px;
+		font-size: 18px;
+
+	}
+	a{
+		float: right;
+		cursor: pointer;
+		color: #fb9678;
+		font-weight: bold;
+		margin-top: 7px;
+		font-size: 15px;
+	}
+	&:after{
+		content: '';
+		display: block;
+		visibility: hidden;
+		clear: both;
+		line-height: 0;
+	}
+}
+.tableC{
+	background: #fff;
+	border: 2px solid #eee;
+	border-radius: 10px;
+}
