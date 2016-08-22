@@ -1,11 +1,18 @@
 import React from 'react'
-import { Icon, Select } from 'antd'
+import { Icon, Select, notification } from 'antd'
 import { guid } from '../../../functions'
 import { uploadFile } from '../../../io'
 import * as config from '../../../config.json'
 import style from '../../RightSidebar/style.scss'
 
 const Option = Select.Option
+
+const showError = (error) => {
+    notification.error({
+        message: '警告',
+        description: '图片上传失败，请检查图片尺寸(不超过2M)或者图片格式(.jpg/.png/.gif)'
+    })
+}
 
 export default class LinkOption extends React.Component{
 
@@ -24,6 +31,8 @@ export default class LinkOption extends React.Component{
         let pageData = this.props.pageData
         let widgetClassNames = [style.widget]
         let addBackgroundBtn = pageData.background.length < 10 ? <button onClick={() => this.__addBackground()} className={style.fullWidthBtn}><Icon type="picture" /> 增加背景图片</button> : null
+
+        let errors = this.props.errors || {}
 
         !this.state.show && widgetClassNames.push(style.hideWidget)
 
@@ -65,9 +74,9 @@ export default class LinkOption extends React.Component{
                     </Select>
                     <div className={style.groupLine}></div>
                     <label className={style.opitonLabel}><span className={style.bgRed}>*</span>页面标题</label>
-                    <input type="text" onChange={(e) => this.__updatePageData('title', e.currentTarget.value)} defaultValue={pageData.title} className={style.textOption}/>
+                    <input data-error={errors.title} type="text" onChange={(e) => this.__updatePageData('title', e.currentTarget.value)} defaultValue={pageData.title} className={style.textOption}/>
                     <label className={style.opitonLabel}><span className={style.bgRed}>*</span>访问路径(英文和数字的组合)</label>
-                    <input disabled={pageData.id ? true : false} type="text" onChange={(e) => this.__updatePageData('pathname', e.currentTarget.value)} defaultValue={pageData.pathname} className={style.textOption}/>
+                    <input data-error={errors.pathname} disabled={pageData.id ? true : false} type="text" onChange={(e) => this.__updatePageData('pathname', e.currentTarget.value)} defaultValue={pageData.pathname} className={style.textOption}/>
                     <div className={style.groupLine}></div>
                     <label className={style.opitonLabel}>背景图片</label>
                     {pageData.background.map(createBackgroundSelector)}
@@ -173,7 +182,11 @@ export default class LinkOption extends React.Component{
                 },
 
                 onerror: (e) => {
+                    showError('图片上传失败')
                     this.props.actions.updateBackground({ index, data: {
+                        data: null,
+                        url: null,
+                        releaseUrl: null,
                         uploading: 2
                     }})
                 }

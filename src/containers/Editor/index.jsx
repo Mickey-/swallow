@@ -74,7 +74,7 @@ class Editor extends React.Component{
                     <Header pageData={this.props.pageData} editorState={this.props.editorState} actions={this.props.actions}/>
                     <LeftSidebar actions={this.props.actions}/>
                     <Canvas pageData={this.props.pageData} editorState={this.props.editorState} actions={this.props.actions}/>
-                    <RightSidebar pageData={this.props.pageData} editorState={this.props.editorState} actions={this.props.actions}/>
+                    <RightSidebar errors={this.props.errors} pageData={this.props.pageData} editorState={this.props.editorState} actions={this.props.actions}/>
                 </div>
             )
 
@@ -88,7 +88,8 @@ const mapStateToProps = (state) => {
 
     return {
         pageData: state.editor.pageData,
-        editorState: state.editor.editorState
+        editorState: state.editor.editorState,
+        errors: state.editor.errors
     }
 
 }

@@ -1,6 +1,6 @@
 .right-sidebar{
     position: absolute;
-    z-index: 1020;
+    z-index: 999;
     top: 70px;
     right: 0;
     bottom: 0;
@@ -97,7 +97,8 @@
     &:focus{
         border-color: #3498DB;
     }
-    &.error{
+    &.error,
+    &[data-error]{
         border-color: #E74C3C;
     }
     &[type="color"]{

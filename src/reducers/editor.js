@@ -28,7 +28,8 @@ const initialState = {
             'index': null
         }
     },
-    'html': ''//渲染出来的HTML代码 long text
+    'html': '', //渲染出来的HTML代码 long text
+    'errors': {}
 }
 
 export default handleActions({
@@ -160,6 +161,13 @@ export default handleActions({
         let pageData = Object.assign({}, state.pageData, { tempFiles })
 
         return Object.assign({}, state, { pageData })
+
+    },
+
+    'toggleError' (state, action) {
+
+        let errors = action.payload ? Object.assign({}, state.errors, action.payload) : {}
+        return Object.assign({}, state, { errors })
 
     },
 

@@ -8,15 +8,13 @@ export default class RightSidebar extends React.Component{
 
     render() {
 
-        let pageData = this.props.pageData
-        let editorState = this.props.editorState
-        let actions = this.props.actions
+        let { pageData, editorState, actions, errors } = this.props
 
         return (
             <div className={style.rightSidebar} data-layout={pageData.layout}>
                 <ElementList pageData={pageData} editorState={editorState} actions={actions} />
                 <LinkOption pageData={pageData} editorState={editorState} actions={actions} />
-                <PageOption pageData={pageData} editorState={editorState} actions={actions} />
+                <PageOption errors={errors} pageData={pageData} editorState={editorState} actions={actions} />
             </div>
         )
 

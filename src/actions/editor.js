@@ -13,6 +13,7 @@ export const addElement = createAction('addElement')
 export const selectElement = createAction('selectElement')
 export const updateElement = createAction('updateElement')
 export const deleteElement = createAction('deleteElement')
+export const toggleError = createAction('toggleError')
 export const fillHTML = createAction('fillHTML')
 
 export const addTempFile = createAction('addTempFile')
