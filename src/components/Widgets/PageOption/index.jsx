@@ -24,6 +24,7 @@ export default class LinkOption extends React.Component{
         let pageData = this.props.pageData
         let widgetClassNames = [style.widget]
         let addBackgroundBtn = pageData.background.length < 10 ? <button onClick={() => this.__addBackground()} className={style.fullWidthBtn}><Icon type="picture" /> 增加背景图片</button> : null
+
         !this.state.show && widgetClassNames.push(style.hideWidget)
 
         const createBackgroundSelector = (item, key) => {
@@ -31,6 +32,7 @@ export default class LinkOption extends React.Component{
             let index = item.id
             let rightBtn
             let classNames = [style.fileOptionWrap]
+
             if (item.uploading === 1) {
                 classNames.push(style.unclickable)
                 rightBtn = <button className={style.clearFile}><Icon type="loading" /></button>
@@ -65,7 +67,7 @@ export default class LinkOption extends React.Component{
                     <label className={style.opitonLabel}><span className={style.bgRed}>*</span>页面标题</label>
                     <input type="text" onChange={(e) => this.__updatePageData('title', e.currentTarget.value)} defaultValue={pageData.title} className={style.textOption}/>
                     <label className={style.opitonLabel}><span className={style.bgRed}>*</span>访问路径(英文和数字的组合)</label>
-                    <input type="text" onChange={(e) => this.__updatePageData('pathname', e.currentTarget.value)} defaultValue={pageData.pathname} className={style.textOption}/>
+                    <input disabled={pageData.id ? true : false} type="text" onChange={(e) => this.__updatePageData('pathname', e.currentTarget.value)} defaultValue={pageData.pathname} className={style.textOption}/>
                     <div className={style.groupLine}></div>
                     <label className={style.opitonLabel}>背景图片</label>
                     {pageData.background.map(createBackgroundSelector)}
@@ -133,6 +135,7 @@ export default class LinkOption extends React.Component{
         var imageType = /image.*/;
 
         if (file && file.type.match(imageType)) {
+
             var reader = new FileReader();
             reader.onload = (e) => {
                 this.props.actions.updateBackground({ index, data: {
@@ -141,30 +144,40 @@ export default class LinkOption extends React.Component{
                     data: reader.result
                 }})
             }
+
             reader.readAsDataURL(file);
+
             uploadFile(file, {
+
                 // onprogress: (data) => {
                 //     console.log(data)
                 // },
+
                 onupload: (data) => {
+
                     if (!data) {
                         return false
                     }
+
                     this.props.actions.updateBackground({ index, data: {
                         data: null,
                         url: config.APIURL + data.tempUrl,
                         releaseUrl: data.releaseUrl,
                         uploading: 0
                     }})
+
                     let tempFile = {}
                     tempFile[data.tempUrl] = data.releaseUrl
                     this.props.actions.addTempFile(tempFile)
+
                 },
+
                 onerror: (e) => {
                     this.props.actions.updateBackground({ index, data: {
                         uploading: 2
                     }})
                 }
+
             })
 
         } else if(file.size > 1024 * 1000 * 2) {

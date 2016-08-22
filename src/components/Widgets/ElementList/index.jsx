@@ -40,6 +40,7 @@ export default class LinkOption extends React.Component{
                     <li key={key} onMouseDown={() => this.__selectElement(type, index)} onMouseUp={() => this.__selectElement(type, index)} className={itemClassName}>
                         <Icon type="link" />
                         <span className={listStyle.linkUrl}>{item.url || '未设置链接'}</span>
+                        <button onClick={() => this.__deleteElement(type, index)} className={listStyle.btnRemoveElement}><Icon type="delete"/></button>
                     </li>
                 )
 
@@ -72,6 +73,11 @@ export default class LinkOption extends React.Component{
 
     __selectElement(type, index) {
         this.props.actions.selectElement({ type, index })
+        return false
+    }
+
+    __deleteElement(type, index) {
+        this.props.actions.deleteElement({ type, index })
         return false
     }
 

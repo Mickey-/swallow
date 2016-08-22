@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Icon } from 'antd'
 import { Link } from 'react-router'
-import { validatePageData, buildTemplate } from '../../functions' 
+import { validatePageData, buildTemplate, formatTime } from '../../functions' 
 import * as IO from '../../io'
 import Previewer from '../Previewer'
 import style from './style.scss'
@@ -21,11 +21,11 @@ export default class Header extends Component {
                     <button className={style.btnClear} onClick={() => this.__clear()}><Icon type="reload" /> 清空</button>
                     <button className={style.btnSave} onClick={() => this.__save()}><Icon type="save" /> 保存</button>
                     <button className={style.btnPreview} onClick={() => this.__preview()}><Icon type="eye-o" /> 预览</button>
-                    <button className={style.btnPublish}><Icon type="check" /> 发布</button>
+                    <button className={style.btnPublish} onClick={() => this.__publish()}><Icon type="check" /> 发布</button>
                 </div>
                 <div className={style.caption}>
-                    <h5>{(pageData.title ? pageData.title : '未命名项目') + (editorState.unsave ? '*' : '')}</h5>
-                    <h6>{pageData.lastSaveTime ? '上次保存于16:23:43' : '当前项目未保存'}</h6>
+                    <h5>{(pageData.title ? pageData.title : '未命名项目')}</h5>
+                    <h6>{pageData.lastSaveTime ? '上次保存于' + formatTime(pageData.lastSaveTime, 'hh:mm:ss') : '当前项目未保存'}</h6>
                 </div>
             </header>
         )
@@ -34,6 +34,8 @@ export default class Header extends Component {
 
     __save() {
 
+        let actions = this.props.actions
+
         let data = JSON.parse(JSON.stringify(this.props.pageData))
         let result = validatePageData(data)
 
@@ -41,18 +43,38 @@ export default class Header extends Component {
 
         if (result === true) {
 
+            let now = new Date().getTime()
+
             if (data.id) {
 
                 console.log('更新海报')
-                IO.updatePoster(data.id, data, (res) => {
+
+                data = { ...data }
+
+                data.elements = JSON.stringify(data.elements)
+                data.background = JSON.stringify(data.background)
+
+                IO.updatePoster(data.id, data).then((res) => {
                     console.log(res)
+                    actions.updatePageData({
+                        lastSaveTime: now
+                    })
                 })
 
             } else {
 
                 console.log('保存海报')
-                IO.savePoster(data, (res) => {
-                    console.log(res)
+
+                data = { ...data }
+
+                data.elements = JSON.stringify(data.elements)
+                data.background = JSON.stringify(data.background)
+
+                IO.savePoster(data).then((res) => {
+                    actions.updatePageData({
+                        id: res.id,
+                        lastSaveTime: now
+                    })
                 })
 
             }
@@ -60,6 +82,36 @@ export default class Header extends Component {
         } else {
             console.log(result)
         }
+
+    }
+
+    __publish() {
+
+        let actions = this.props.actions
+
+        let data = JSON.parse(JSON.stringify(this.props.pageData))
+        let result = validatePageData(data)
+
+        if (!data.id) {
+            console.log('发布前请先保存！')
+            return false
+        }
+
+        if (result !== true) {
+            console.log(result)
+            return false
+        }
+
+        data = { ...data }
+
+        data.elements = JSON.stringify(data.elements)
+        data.background = JSON.stringify(data.background)
+
+        IO.publishPoster(data.id, data).then((data) => {
+            console.log(data)
+        }).catch((e) => {
+            console.error(e)
+        })
 
     }
 

@@ -97,67 +97,47 @@ export const uploadFile = (file, option_in = {}) => {
 
 }
 
-export const checkExists = (path, fn) => {
+export const checkExists = (path) => {
 
-    fetch(API.check_exists, { path }).then((data) => {
-        typeof fn === 'function' && fn(data)
-    })
+    return fetch(API.check_exists, { path })
 
 }
 
-export const savePoster = (data, fn) => {
+export const savePoster = (data) => {
 
-    fetch(API.save_poster, { data }, 'POST').then(() => {
-        typeof fn === 'function' && fn(data)
-    })
+    return fetch(API.save_poster, data, 'POST')
 
 }
 
 export const getPosters = (index = 0, filter = {}, size = 20) => {
 
     let page = { index, size }
-    return new Promise((resolve, reject) => {
-        fetch(API.get_posters, { filter, page }).then((data) => {
-            resolve(data)
-        }).catch((e) => {
-            reject(e)
-        })
-    })
+    return fetch(API.get_posters, { filter, page })
 
 }
 
-export const getPoster = (id, fn) => {
+export const getPoster = (id) => {
 
-    return new Promise((resolve, reject) => {
-        fetch(API.get_poster, { id }).then((data) => {
-            resolve(data)
-        }).catch((e) => {
-            reject(e)
-        })
-    })
+    return fetch(API.get_poster, { id })
 
 }
 
-export const publishPoster = (id, fn) => {
+export const publishPoster = (id, params) => {
 
-    fetch(API.pub_poster, { id }, 'POST').then((data) => {
-        typeof fn === 'function' && fn(data)
-    })
+    return fetch(API.pub_poster, { id, params }, 'POST')
 
 }
 
-export const updatePoster = (id, params, fn) => {
+export const updatePoster = (id, params) => {
 
-    fetch(API.updata_poster, { id, params }, 'PUT').then((data) => {
-        typeof fn === 'function' && fn(data)
-    })
+    return fetch(API.updata_poster, { id, params }, 'PUT')
 
 }
 
-export const deletePoster = (id, fn) => {
-    fetch(API.delete_poster, { id }, 'DELETE').then((data) => {
-        typeof fn === 'function' && fn(data)
-    })
+export const deletePoster = (id) => {
+
+    return fetch(API.delete_poster, { id }, 'DELETE')
+
 }
 
 

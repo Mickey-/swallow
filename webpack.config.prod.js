@@ -19,8 +19,8 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, './dist'),
-        filename: '[name].[hash:5].js',
-        publicPath: './'  //TODO modify to http://fecdn.59store.com/
+        filename: '[name].[chunkhash:5].js',
+        publicPath: 'http://fecdn.59store.com/swallow'
     },
     module: {
         loaders: [
@@ -48,7 +48,7 @@ module.exports = {
             },
             {test: /\.tpl$/, loader: 'html-tpl?minimize=false&collapseWhitespace=false'},
             {test: /\.json$/, loader: 'json-loader'},
-            {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192&name=[name]_[hash:5].[ext]'}
+            {test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192&name=[name]_[hash:5].[ext]'}
         ]
     },
     resolve: {
@@ -60,8 +60,8 @@ module.exports = {
         })
     ],
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin('lib', 'lib.[hash:5].js'),
-        new ExtractTextPlugin("[name].[hash:5].css"),
+        new webpack.optimize.CommonsChunkPlugin('lib', 'lib.[chunkhash:5].js'),
+        new ExtractTextPlugin("[name].[chunkhash:5].css"),
         new webpack.DefinePlugin({
             'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
         }),

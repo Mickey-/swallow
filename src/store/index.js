@@ -1,7 +1,4 @@
-
 import { createStore, applyMiddleware } from 'redux'
-
-import { logger } from '../middleware'
 import rootReducer from '../reducers'
 
 export default function cs(initialState) {
@@ -9,9 +6,7 @@ export default function cs(initialState) {
     ? window.devToolsExtension()(createStore)
     : createStore
 
-  const createStoreWithMiddleware = applyMiddleware(
-    logger
-  )(create)
+  const createStoreWithMiddleware = applyMiddleware()(create)
 
   const store = createStoreWithMiddleware(rootReducer, initialState)
 

@@ -1,0 +1,37 @@
+.blankPage{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.content{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate3d(-50%, -100%, 0);
+}
+.icon{
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 30px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 64px;
+  &[data-type="tip"] {
+    background-image: url(../../assets/images/warn.png);
+  }
+  &[data-type="error"] {
+    background-image: url(../../assets/images/error.png);
+  }
+  &[data-type="loading"] {
+    background-image: url(../../assets/images/hourglass.gif);
+  }
+}
+.message{
+  margin: 0;
+  font-size: 18px;
+  font-weight: normal;
+}

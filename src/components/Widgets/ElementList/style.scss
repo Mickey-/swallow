@@ -26,6 +26,12 @@
         border-radius: 5px;
     }
 }
+.btn-remove-element{
+    float: right;
+    &:hover{
+        color: #e00;
+    }
+}
 .link-url{
     padding: 0 10px;
     font-size: 12px;

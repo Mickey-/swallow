@@ -46,7 +46,7 @@ module.exports = {
             },
             {test: /\.json$/, loader: 'json-loader'},
             {test: /\.tpl$/, loader: 'html-tpl?minimize=false&collapseWhitespace=false'},
-            {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192&name=[name]_[hash:5].[ext]'}
+            {test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192&name=[name]_[hash:5].[ext]'}
         ]
     },
     resolve: {

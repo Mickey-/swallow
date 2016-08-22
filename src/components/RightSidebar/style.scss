@@ -101,9 +101,14 @@
         border-color: #E74C3C;
     }
     &[type="color"]{
-        padding: 0;
+        padding: 0 3px;
         background-color: #fff;
-        border: none;
+        outline: solid 3px #fff;
+        outline-offset: -7px;
+    }
+    &:disabled{
+        color: #aaa;
+        border-color: #aaa;
     }
     &.textarea{
         padding: 5px;
