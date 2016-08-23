@@ -111,8 +111,7 @@ export const savePoster = (data) => {
 
 export const getPosters = (index = 0, filter = {}, size = 20) => {
 
-    let page = { index, size }
-    return fetch(API.get_posters, { filter, page })
+    return fetch(API.get_posters, { index, size, ...filter})
 
 }
 
