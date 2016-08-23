@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import style from './style.scss'
 import { Modal, Button } from 'antd'
 
 export default class LocalizeModal extends Component{
