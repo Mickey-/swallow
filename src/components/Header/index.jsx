@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { Icon } from 'antd'
+import { Icon, message } from 'antd'
 import { Link } from 'react-router'
 import { validatePageData, buildTemplate, formatTime } from '../../functions' 
 import * as IO from '../../io'
 import Previewer from '../Previewer'
 import style from './style.scss'
+
+const showError = (error) => {
+    message.error(error)
+}
 
 export default class Header extends Component {
 
@@ -79,8 +83,11 @@ export default class Header extends Component {
 
             }
 
+            actions.toggleError(false)
+
         } else {
-            console.log(result)
+            showError('请完善必填字段')
+            actions.toggleError(result)
         }
 
     }
@@ -92,15 +99,20 @@ export default class Header extends Component {
         let data = JSON.parse(JSON.stringify(this.props.pageData))
         let result = validatePageData(data)
 
+        data.html = buildTemplate(data, data.layout, true)
+
         if (!data.id) {
-            console.log('发布前请先保存！')
+            showError('发布前请先保存！')
             return false
         }
 
         if (result !== true) {
-            console.log(result)
+            showError('请完善必填字段')
+            actions.toggleError(result)
             return false
         }
+
+        actions.toggleError(false)
 
         data = { ...data }
 

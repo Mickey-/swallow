@@ -59,15 +59,24 @@ const getBackgroundImageUrl = (image, release) => {
 
 export const validatePageData = (data) => {
 
+        let errors = {
+            title: false,
+            pathname: false
+        }
+
+        let has_error = false
+
         if (data.title === null || data.title.trim().length === 0) {
-            return '页面标题不能为空'
+            has_error = true
+            errors.title =  '页面标题不能为空'
         }
 
         if (data.pathname === null || data.pathname.trim().length === 0) {
-            return '访问路径不能为空'
+            has_error = true
+            errors.pathname = '访问路径不能为空'
         }
 
-        return true
+        return has_error ? errors : true
 
 }
 
