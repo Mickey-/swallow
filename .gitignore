@@ -14,8 +14,8 @@ node_modules
 *~
 *.sass-cache
 
-#/dist/*
-#!/dist/*.html
+/dist/*
+!/dist/*.html
 
 # OS or Editor folders
 .DS_Store
