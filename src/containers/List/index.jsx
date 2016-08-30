@@ -9,33 +9,23 @@ import { Table, Icon, Modal, Pagination, message } from 'antd'
 
 import { deletePoster, getPosters } from '../../io' 
 import columns from './tableHeader.json'
-import Data from './mock.json'
-
-import LocalizeModal from '../../components/listComponent/localizeModal'
-
 
 
 class List extends Component{
     constructor(props){
         super(props)
         this.state = {
-            visible: false,
             id: 0,
             total: 0,
-            current: 1,
-            filter: {
-                shareTitle: '',
-                title: '',
-                layout: ''
-            }
+            current: 1
         }
-        this.filter = this.state.filter;
+        this.filter = this.props.list.filter;
         this.changeProp = this.changeProp.bind(this);
     }
 
     getList(index, size){
         getPosters( index-1, this.filter, size ).then( (res) => {
-            //todo  this.setState({total: res.length});
+            //todo  this.setState({total: res.length});  传入总数设置页数   默认每页数量是5。应改为20
             this.setState({total: 50, current: index});
 
             this.props.actions.initialTodo(res)
@@ -44,7 +34,7 @@ class List extends Component{
 
     componentWillMount(){
         this.getList(this.state.current, 5);
-        //todo  将length去掉
+        //todo  将if语句去掉     
         if(columns.length == 11 ){
             columns.push({
                 "title": "操作",
@@ -61,10 +51,6 @@ class List extends Component{
 
     edit( id ){
         console.log(id)
-        this.setState({
-            visible: true,
-            id: id
-        })
     }
 
     preview(e){
@@ -96,7 +82,7 @@ class List extends Component{
     }
 
     onclick(){
-        this.filter = this.state.filter;
+        this.filter = this.props.list.filter;
         this.setState({
             current: 1
         }, () => {
@@ -106,18 +92,15 @@ class List extends Component{
     }
 
     changeProp(event){
-        console.log(this)
         const name = event.target.name;
-        const filter = Object.assign({}, this.state.filter, {[name]: event.target.value})
-        this.setState({
-            filter: filter
-        })
+        const params = {[name]: event.target.value};
+
+        this.props.actions.filterTodo( params );
     }
 
     render() {
         const { list } = this.props;
         let id = this.state.id
-        let visible = this.state.visible
         const none = this.state.total == 0 ? style.none : ''
 
         return (
@@ -127,19 +110,18 @@ class List extends Component{
                     <a href="#/edit">编辑页面</a>
                 </div>
                 <div className={classNames(style.searchForm, 'clearfix')}>
-                    <input type="text" name="title"  value={this.state.filter.title} onChange={this.changeProp}  placeholder="请输入标题" />
+                    <input type="text" name="title"  value={this.props.list.filter.title} onChange={this.changeProp}  placeholder="请输入标题" />
                     布局:<select name="layout" onChange={this.changeProp} >
                         <option value="">请选择</option>
                         <option value="mobile">移动端</option>
                         <option value="pc">电脑端</option>
                     </select>
-                    <input type="text" name="shareTitle" value={this.state.filter.shareTitle} onChange={this.changeProp}  placeholder="请输入分享标题" />
+                    <input type="text" name="shareTitle" value={this.props.list.filter.shareTitle} onChange={this.changeProp}  placeholder="请输入分享标题" />
                     <button className={classNames(style.search, 'clearfix')} onClick={()=>this.onclick()} >搜索</button>
                 </div>
                 <div className={style.tableC}>
                     <Table columns={columns} dataSource={list.lists} pagination={false} />
                 </div>
-                <LocalizeModal {...this.state} />
                 <div className={classNames( style.page, none )}>
                     <Pagination pageSize={5} total={this.state.total} current={this.state.current}  onChange={ (page) => this.onChange(page)}/>
                 </div>

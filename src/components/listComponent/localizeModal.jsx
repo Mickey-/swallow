@@ -5,13 +5,15 @@ export default class LocalizeModal extends Component{
 	constructor(props){
 		super(props) 
 		this.state = {
-			visible: this.props.visible
+			visible: this.props.visible,
+			test: 1
 		}  
 	}
 
 	componentWillReceiveProps(nextProps){
 		this.setState({
-			visible: nextProps.visible
+			visible: nextProps.visible,
+			test: this.state.test+1
 		})
 	}
 
@@ -33,12 +35,21 @@ export default class LocalizeModal extends Component{
 		})
 	}
 
+	click(){
+		this.setState({
+			test: 1
+		})
+	}
+
 	render(){
 		const visible  = this.state.visible
+		console.log('变化了')
 		return (
 			<div>
 	        	<Modal visible={this.state.visible} onOk={()=>this.handleOK()} onCancel={(e)=>this.handleCancel()} title="编辑" width={"1001px"}>
-          			<div style={{height: '800px'}}></div>
+          			<div style={{height: '800px'}} onClick={()=>this.click()}>
+          				test state:{this.state.test}
+          			</div>
 	        	</Modal>
 	        </div>	
 		)

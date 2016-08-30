@@ -1,7 +1,12 @@
 import { handleActions } from 'redux-actions'
 
 const initialState = {
-	lists: []
+	lists: [],
+	filter: {
+		shareTitle: '',
+        title: '',
+        layout: ''
+	}
 }
 
 export default handleActions({
@@ -21,8 +26,14 @@ export default handleActions({
 		return Object.assign( {}, state, {lists} )
 	},
 
-	initialTodo (state, action){
+	'initialTodo' (state, action){
 		return Object.assign({}, state, {lists: action.payload} )
+	},
+
+	'filterTodo' (state, action){
+		let filter = Object.assign({}, state.filter, action.payload );
+
+		return Object.assign({}, state, {filter})
 	}
 
 }, initialState)
