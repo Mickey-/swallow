@@ -20,7 +20,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, './dist'),
         filename: '[name].[chunkhash:5].js',
-        publicPath: 'http://fecdn.59store.com/swallow'
+        publicPath: 'http://fecdn.59store.com/repo/swallow'
     },
     module: {
         loaders: [

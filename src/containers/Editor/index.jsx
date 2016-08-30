@@ -35,20 +35,13 @@ class Editor extends React.Component{
 
             getPoster(id).then((data) => {
 
-                data.elements = JSON.parse(data.elements)
+                //data.elements = JSON.parse(data.elements)
                 data.background = JSON.parse(data.background)
 
                 this.props.actions.updataPageData(data)
 
                 this.setState({
                     loading: false
-                })
-
-            }).catch((error) => {
-
-                this.setState({
-                    loading: false,
-                    error: true
                 })
 
             })

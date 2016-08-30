@@ -7,8 +7,8 @@ import * as IO from '../../io'
 import Previewer from '../Previewer'
 import style from './style.scss'
 
-const showError = (error) => {
-    message.error(error)
+const showMessage = (msg, type="error") => {
+    message[type](msg)
 }
 
 export default class Header extends Component {
@@ -63,6 +63,7 @@ export default class Header extends Component {
                     actions.updatePageData({
                         lastSaveTime: now
                     })
+                    showMessage('更新成功！', 'success')
                 })
 
             } else {
@@ -79,6 +80,7 @@ export default class Header extends Component {
                         id: res.id,
                         lastSaveTime: now
                     })
+                    showMessage('保存成功！', 'success')
                 })
 
             }
@@ -86,7 +88,7 @@ export default class Header extends Component {
             actions.toggleError(false)
 
         } else {
-            showError('请完善必填字段')
+            showMessage('请完善必填字段')
             actions.toggleError(result)
         }
 
@@ -102,12 +104,12 @@ export default class Header extends Component {
         data.html = buildTemplate(data, data.layout, true)
 
         if (!data.id) {
-            showError('发布前请先保存！')
+            showMessage('发布前请先保存！')
             return false
         }
 
         if (result !== true) {
-            showError('请完善必填字段')
+            showMessage('请完善必填字段')
             actions.toggleError(result)
             return false
         }
@@ -121,6 +123,7 @@ export default class Header extends Component {
 
         IO.publishPoster(data.id, data).then((data) => {
             console.log(data)
+            showMessage('发布成功！', 'success')
         }).catch((e) => {
             console.error(e)
         })
