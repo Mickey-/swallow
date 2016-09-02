@@ -10,7 +10,7 @@ const Option = Select.Option
 const showError = (error) => {
     notification.error({
         message: '警告',
-        description: '图片上传失败，请检查图片尺寸(不超过2M)或者图片格式(.jpg/.png/.gif)'
+        description: '图片上传失败'
     })
 }
 

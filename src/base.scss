@@ -10,8 +10,9 @@ button {
     font-smoothing: antialiased;
 }
 
-body {
+html body {
     margin: 0 auto;
+    background-color: #fff;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
     -ms-font-smoothing: antialiased;
@@ -46,7 +47,9 @@ b, strong {
 iframe::-webkit-scrollbar {
     width: 0;
 }
-
+body [class="ant-modal-mask"] {
+    z-index: 999;
+}
 #root{
     height: 100vh;
 }

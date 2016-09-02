@@ -1,86 +1,31 @@
-.operation{
-	a{
-		margin-right: 10px;
-		color: #797979;
-		cursor: pointer;
-	}
+.pageContainer{
+  width: 1280px;
+  height: 600px;
+  margin: 30px auto;
+  overflow: hidden;
 }
-.content{
-	background: #edf1f5;
-	height: 100%;
-	padding: 20px;
-}
-.header{
-	background: #fff;
-	width: 100%;
-	padding: 15px 15px 25px;
-	h4{
-		float: left;
-		width: 500px;
-		color: rgba(0, 0, 0, 0.5);
-		font-weight: 600;
-		margin-top: 6px;
-		font-size: 18px;
-
-	}
-	a{
-		float: right;
-		cursor: pointer;
-		color: #fb9678;
-		font-weight: bold;
-		margin-top: 7px;
-		font-size: 15px;
-	}
-	&:after{
-		content: '';
-		display: block;
-		visibility: hidden;
-		clear: both;
-		line-height: 0;
-	}
-}
-.tableC{
-	background: #fff;
-}
-.page{
-	background: #fff;
-	padding: 10px 0px;
-}
-.none{
-	display: none;
-}
-
-//搜索栏
-.searchForm{
-	background: #fff;
-	height: 40px;
-	border-top: 1px solid #e9e9e9;
-	padding-top: 5px;
-	.search{
-		background: #E74C3C;
-		border-radius: 3px;
-		float: right;
-		margin-right: 10px;
-		padding: 0 15px;
-		color: #fff;
-		height: 32px;
-		&:hover{
-			box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.2)
-		}
-		cursor: pointer;
-	}
-	input, select{
-		line-height: 32px;
-		vertical-align: middle;
-		border-radius: 3px;
-		height: 28px;
-		padding-left: 7px;
-		margin: 0 7px;
-	}
-	input[type=text]{
-		border: 1px solid #e9e9e9;
-		&:focus{
-			border: 1px solid #57c5f7;
-		}
-	}
+.listTypes{
+  float: left;
+  width: 240px;
+  height: 100%;
+  border-top: 1px solid #f2f2f3;
+  border-right: 1px solid #f2f2f3;
+  a{
+    display: block;
+    height: 60px;
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    line-height: 60px;
+    background-color: #fdfdfe;
+    border-bottom: 1px solid #f2f2f3;
+    &:hover{
+      background-color: #f6f6f7;
+    }
+    &.active{
+      color: #3498DB;
+      background-color: #fff;
+      box-shadow: 1px 0 0 #fff;
+    }
+  }
 }

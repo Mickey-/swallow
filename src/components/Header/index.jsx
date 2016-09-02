@@ -1,38 +1,105 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { Icon, message } from 'antd'
+import { Icon, Modal, notification, message } from 'antd'
 import { Link } from 'react-router'
-import { validatePageData, buildTemplate, formatTime } from '../../functions' 
+import { validatePageData, buildTemplate, formatTime } from '../../functions'
 import * as IO from '../../io'
+import * as config from '../../config.json'
 import Previewer from '../Previewer'
 import style from './style.scss'
 
-const showMessage = (msg, type="error") => {
-    message[type](msg)
+const showNotification = (msg, type="error") => {
+
+    let msgs = {
+        'error': '错误',
+        'success': '提醒'
+    }
+
+    notification[type]({
+        message: msgs[type] || '提醒',
+        description: msg
+    })
+
+}
+
+const copyPosterUrl = () => {
+
+    document.getElementById('poster-url-field').select()
+    if (document.execCommand('Copy', false, null)) {
+        message.success('复制成功！')
+    } else {
+        message.error('复制失败，请手动复制')
+    }
+
+}
+
+const showPubModal = (pathname) => {
+
+    Modal.success({
+        'title': '发布成功',
+        'content': (
+            <div className={style.copierBox}>
+                <input className={style.publicUrl} id="poster-url-field" defaultValue={config.CDNURL + "/" + pathname} />
+                <a className={style.btnCopyUrl} onClick={() => copyPosterUrl()} href="javascript:void(0);" id="btn-copy-url">复制地址</a>
+                <a className={style.btnViewUrl} href={config.CDNURL + "/" + pathname} target="_blank">立即查看</a>
+            </div>
+        ),
+        'okText': '好的'
+    })
+
 }
 
 export default class Header extends Component {
+
+    componentDidMount() {
+
+        //document.getElementById('btn-copy-url').onclick = () => {
+        //    window.clipboardData.setData("Text", document.getElementById('poster-url-field').innerHTML);
+        //}
+
+    }
 
     render() {
 
         let pageData = this.props.pageData
         let editorState = this.props.editorState
+        let type = this.props.type || 'editor'
 
-        return (
-            <header className={style.appHeader}>
-                <div className={style.logo}></div>
-                <div className={style.headerBtns}>
-                    <button className={style.btnClear} onClick={() => this.__clear()}><Icon type="reload" /> 清空</button>
-                    <button className={style.btnSave} onClick={() => this.__save()}><Icon type="save" /> 保存</button>
-                    <button className={style.btnPreview} onClick={() => this.__preview()}><Icon type="eye-o" /> 预览</button>
-                    <button className={style.btnPublish} onClick={() => this.__publish()}><Icon type="check" /> 发布</button>
-                </div>
-                <div className={style.caption}>
-                    <h5>{(pageData.title ? pageData.title : '未命名项目')}</h5>
-                    <h6>{pageData.lastSaveTime ? '上次保存于' + formatTime(pageData.lastSaveTime, 'hh:mm:ss') : '当前项目未保存'}</h6>
-                </div>
-            </header>
-        )
+        if (type === 'editor') {
+
+            return (
+                <header className={style.appHeader}>
+                    <div className={style.logo}></div>
+                    <div className={style.headerBtns}>
+                        <a className={style.btnNormal} href="./"><Icon type="left" /> 返回列表</a>
+                        <button className={style.btnClear} onClick={() => this.__clear()}><Icon type="reload" /> 清空</button>
+                        <button className={style.btnSave} onClick={() => this.__save()}><Icon type="save" /> 保存</button>
+                        <button className={style.btnPreview} onClick={() => this.__preview()}><Icon type="eye-o" /> 预览</button>
+                        <button className={style.btnPublish} onClick={() => this.__publish()}><Icon type="check" /> 发布</button>
+                    </div>
+                    <div className={style.caption}>
+                        <h5>{(pageData.title ? pageData.title : '未命名项目')}</h5>
+                        <h6>{pageData.lastSaveTime ? '上次保存于' + formatTime(pageData.lastSaveTime, 'hh:mm:ss') : '当前项目未保存'}</h6>
+                    </div>
+                </header>
+            )
+
+        } else {
+
+            return (
+                <header className={style.appHeader}>
+                    <div className={style.logo}></div>
+                    <div className={style.headerBtns}>
+                        <a className={style.btnPublish} href="#/edit/new"><Icon type="plus" /> 新建海报</a>
+                    </div>
+                    <div className={style.caption}>
+                        <h5>Swallow</h5>
+                        <h6>海报制作发布工具</h6>
+                    </div>
+                </header>
+            )
+
+        }
 
     }
 
@@ -54,16 +121,21 @@ export default class Header extends Component {
                 console.log('更新海报')
 
                 data = { ...data }
-
                 data.elements = JSON.stringify(data.elements)
-                data.background = JSON.stringify(data.background)
+                data.background = JSON.stringify(data.background.map((item) => {
+                    return { ...item, url: item.releaseUrl }
+                }))
 
                 IO.updatePoster(data.id, data).then((res) => {
                     console.log(res)
                     actions.updatePageData({
-                        lastSaveTime: now
+                        lastSaveTime: now,
+                        tempFiles: []
                     })
-                    showMessage('更新成功！', 'success')
+                    showNotification('更新成功！', 'success')
+                }).catch((e) => {
+                    showNotification(e.msg || e.message || '发生错误', 'error')
+                    console.error(e)
                 })
 
             } else {
@@ -71,16 +143,21 @@ export default class Header extends Component {
                 console.log('保存海报')
 
                 data = { ...data }
-
                 data.elements = JSON.stringify(data.elements)
-                data.background = JSON.stringify(data.background)
+                data.background = JSON.stringify(data.background.map((item) => {
+                    return { ...item, url: item.releaseUrl }
+                }))
 
                 IO.savePoster(data).then((res) => {
                     actions.updatePageData({
                         id: res.id,
-                        lastSaveTime: now
+                        lastSaveTime: now,
+                        tempFiles: []
                     })
-                    showMessage('保存成功！', 'success')
+                    showNotification('保存成功！', 'success')
+                }).catch((e) => {
+                    showNotification(e.msg || e.message || '发生错误', 'error')
+                    console.error(e)
                 })
 
             }
@@ -88,7 +165,7 @@ export default class Header extends Component {
             actions.toggleError(false)
 
         } else {
-            showMessage('请完善必填字段')
+            showNotification('请完善必填字段')
             actions.toggleError(result)
         }
 
@@ -98,18 +175,20 @@ export default class Header extends Component {
 
         let actions = this.props.actions
 
+        let now = new Date().getTime()
         let data = JSON.parse(JSON.stringify(this.props.pageData))
         let result = validatePageData(data)
+        let backgrounds = data.background
 
         data.html = buildTemplate(data, data.layout, true)
 
         if (!data.id) {
-            showMessage('发布前请先保存！')
+            showNotification('发布前请先保存！')
             return false
         }
 
         if (result !== true) {
-            showMessage('请完善必填字段')
+            showNotification('请完善必填字段')
             actions.toggleError(result)
             return false
         }
@@ -117,14 +196,21 @@ export default class Header extends Component {
         actions.toggleError(false)
 
         data = { ...data }
-
         data.elements = JSON.stringify(data.elements)
-        data.background = JSON.stringify(data.background)
+        data.background = JSON.stringify(data.background.map((item) => {
+            return { ...item, url: item.releaseUrl }
+        }))
+
+        let pathname = data.pathname
 
         IO.publishPoster(data.id, data).then((data) => {
-            console.log(data)
-            showMessage('发布成功！', 'success')
+            actions.updatePageData({
+                lastSaveTime: now,
+                tempFiles: []
+            })
+            showPubModal(pathname)
         }).catch((e) => {
+            showNotification(e.msg || e.message || '发生错误', 'error')
             console.error(e)
         })
 

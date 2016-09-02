@@ -15,6 +15,10 @@ const API = {
     'delete_poster' : SERVER + '/poster'
 }
 
+const IO_ERRORS = {
+    '0': '网络未连接'
+}
+
 const fetch = (url, data = {}, method = 'GET', timeout = 5000) => {
 
     return new Promise((resolve, reject) => {
@@ -40,20 +44,31 @@ const fetch = (url, data = {}, method = 'GET', timeout = 5000) => {
 
         xhr.onreadystatechange = () => {
 
-            if (xhr.readyState === 4 && xhr.status === 200) {
+            if (xhr.readyState === 4) {
 
-                try{
-                    let data = JSON.parse(xhr.responseText)
-                    if (data.status === 0) {
-                        resolve(data.data)
-                    } else {
-                        reject(data)
+                if (xhr.status === 200) {
+
+                   try{
+                        let data = JSON.parse(xhr.responseText)
+                        if (data.status === 0) {
+                            resolve(data.data)
+                        } else {
+                            reject(data)
+                        }
+                    } catch(e) {
+                        reject({
+                            'status': -2,
+                            'msg': e.message
+                        })
                     }
-                } catch(e) {
+
+                } else {
+
                     reject({
                         'status': -2,
-                        'msg': e.message
+                        'msg': IO_ERRORS[xhr.status] || '未知错误'
                     })
+
                 }
   
             }

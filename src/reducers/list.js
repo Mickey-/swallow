@@ -1,39 +1,22 @@
 import { handleActions } from 'redux-actions'
 
 const initialState = {
-	lists: [],
-	filter: {
-		shareTitle: '',
-        title: '',
-        layout: ''
-	}
+	posters: [],
+	page: 1
 }
 
 export default handleActions({
-	'editTodo' (state, action){
-		let list = action.payload
 
-		return state.map( todo => {
-			todo.id === list.id ? list : todo
-		})
+	'appendPosters' (state, action) {
+
+		return [ ...state.posters, action.payload ]
+
 	},
 
-	'deleteTodo' (state, action){
-		let id = action.payload
-		let lists = state.lists.filter( todo => 
-			todo.id != id
-		)
-		return Object.assign( {}, state, {lists} )
-	},
+	'deletePoster' (state, action) {
 
-	'initialTodo' (state, action){
-		return Object.assign({}, state, {lists: action.payload} )
-	},
+		return [ ...state.posters ].splice(action.payload.index)
 
-	'filterTodo' (state, action){
-		let filter = Object.assign({}, state.filter, action.payload );
-
-		return Object.assign({}, state, {filter})
 	}
 
 }, initialState)

@@ -1,4 +1,4 @@
 {
     "APIURL": "http://192.168.30.103",
-    "CNDURL:": "http://fecdn.59store.com/activity"
+    "CDNURL": "http://fecdn.59store.com/activity"
 }
