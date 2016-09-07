@@ -23,7 +23,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/">
-                <IndexRedirect to="edit"/>
+                <IndexRedirect to="list"/>
                 <Route path="list" component={List}/>
                 <Route path="edit">
                     <IndexRedirect to="new"/>

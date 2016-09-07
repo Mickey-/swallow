@@ -51,14 +51,6 @@ const showPubModal = (pathname) => {
 
 export default class Header extends Component {
 
-    componentDidMount() {
-
-        //document.getElementById('btn-copy-url').onclick = () => {
-        //    window.clipboardData.setData("Text", document.getElementById('poster-url-field').innerHTML);
-        //}
-
-    }
-
     render() {
 
         let pageData = this.props.pageData

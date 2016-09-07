@@ -66,6 +66,17 @@ export default class Canvas extends React.Component{
 
     }
 
+    componentWillUnmount() {
+
+        window.removeEventListener('resize', (e) => this.__triggerGlobalResize(e))
+        document.removeEventListener('keydown', (e) => this.__triggerGlobalKeyDown(e))
+        document.removeEventListener('keyup', (e) => this.__triggerGlobalKeyUp(e))
+        document.removeEventListener('mouseup', (e) => this.__triggleGlobalMouseUp(e))
+        document.removeEventListener('mousedown', (e) => this.__triggleGlobalMouseDown(e))
+        document.removeEventListener('mousemove', (e) => this.__triggerGlobalDragging(e))
+
+    }
+
     componentWillReceiveProps() {
 
         let listOfLayoutSize = {

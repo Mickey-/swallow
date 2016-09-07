@@ -1,31 +1,126 @@
+.listPage{
+  background-color: #fff;
+}
 .pageContainer{
-  width: 1280px;
-  height: 600px;
+  width: 1080px;
   margin: 30px auto;
+  overflow: hidden;
+  background-color: #fff;
+}
+.listFilter{
+  height: 32px;
   overflow: hidden;
 }
 .listTypes{
   float: left;
-  width: 240px;
-  height: 100%;
-  border-top: 1px solid #f2f2f3;
-  border-right: 1px solid #f2f2f3;
+  width: 300px;
+  height: 32px;
+  border: 1px solid #f1f2f3;
+  overflow: hidden;
+  border-radius: 3px;
   a{
     display: block;
-    height: 60px;
-    color: #666;
+    box-sizing: border-box;
+    float: left;
+    width: 33.333333%;
+    height: 32px;
+    color: #999;
     font-size: 14px;
+    font-weight: bold;
     text-align: center;
-    line-height: 60px;
-    background-color: #fdfdfe;
-    border-bottom: 1px solid #f2f2f3;
+    line-height: 32px;
+    background-color: #fff;
+    border-right: 1px solid #f1f2f3;
+    &:last-child{
+      border-right: none;
+    }
     &:hover{
-      background-color: #f6f6f7;
+      background-color: #fbfbfc;
     }
     &.active{
-      color: #3498DB;
-      background-color: #fff;
-      box-shadow: 1px 0 0 #fff;
+      background-color: #f9f9fa;
     }
   }
+}
+.listSearcher{
+  float: right;
+  height: 32px;
+}
+.btnClearSearchInput{
+  display: block;
+  float: right;
+  height: 14px;
+  margin: 9px 15px 0 0;
+  color: #999;
+  cursor: pointer;
+  &:hover{
+    color: #c00;
+  }
+}
+.listSearchInput{
+  float: right;
+  width: 140px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #f1f2f3;
+  border-radius: 3px 0 0 3px;
+}
+.listSearchBtn{
+  float: right;
+  width: 60px;
+  height: 32px;
+  border: 1px solid #f1f2f3;
+  border-left: none;
+  border-radius: 0 3px 3px 0;
+  cursor: pointer;
+  &:hover{
+    background-color: #fbfbfc;
+  }
+}
+
+.listItems{
+  margin: 15px auto 30px auto;
+  list-style: none;
+  span{
+    color: #bbb;
+  }
+  li{
+    height: 60px;
+    border-bottom: 1px solid #f1f2f3;
+    span, a{
+      display: inline-block;
+      height: 20px;
+      margin-top: 20px;
+      overflow: hidden;
+      line-height: 20px;
+    }
+    a:hover{
+      text-decoration: underline;
+    }
+  }
+}
+.listHead{
+  font-weight: bold;
+  border-top: solid 2px #f1f2f3;
+  span{
+    color: #555;
+  }
+}
+.itemTitle{
+  float: left;
+  width: 600px;
+  padding-left: 20px;
+}
+.itemType{
+  float: left;
+  width: 120px;
+  overflow: hidden;
+}
+.itemDate{
+  float: left;
+  width: 150px;
+}
+.itemOptBtns{
+  float: right;
+  padding-right: 20px;
 }
