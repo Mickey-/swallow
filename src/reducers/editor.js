@@ -4,6 +4,7 @@ import { findIndexById } from '../functions'
 const initialState = {
     'pageData': {
         'id': null,
+        'isPublish': false,
         'layout': 'mobile', //页面布局类型 varchar
         'title': '', //页面标题 varchar
         'pathname': '', //页面路径名 varchar

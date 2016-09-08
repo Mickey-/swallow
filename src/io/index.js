@@ -11,12 +11,12 @@ const API = {
     'get_my_poster' : SERVER + '/poster/me',
     'get_poster'    : SERVER + '/poster/detail',
     'pub_poster'    : SERVER + '/poster/publish',
-    'updata_poster' : SERVER + '/poster',
+    'updata_poster' : SERVER + '/poster/update',
     'delete_poster' : SERVER + '/poster'
 }
 
 const IO_ERRORS = {
-    '0': '网络未连接'
+    '0': '请求超时'
 }
 
 const fetch = (url, data = {}, method = 'GET', timeout = 5000) => {
@@ -144,7 +144,7 @@ export const publishPoster = (id, params) => {
 
 export const updatePoster = (id, params) => {
 
-    return fetch(API.updata_poster, { id, params }, 'PUT')
+    return fetch(API.updata_poster, { id, params }, 'POST')
 
 }
 

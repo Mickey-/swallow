@@ -104,9 +104,9 @@ export const findIndexById = (array, id) => {
 
 export const guid = () => {
 
-    window.__SWALLOW_GUID__ = window.__SWALLOW_GUID__ || 0
-    window.__SWALLOW_GUID__ += 1
-    return window.__SWALLOW_GUID__
+    let now = new Date().getTime()
+    let randString = Math.random().toString(32).replace(/\d|\./g, '') + now
+    return randString
 
 }
 

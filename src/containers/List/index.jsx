@@ -19,9 +19,10 @@ class List extends React.Component{
             loading: true,
             error: false,
             inited: false,
+            total: 0,
             posters: [],
             filter: {
-                page: 1,
+                page: 0,
                 type: 'all',
                 title: ''
             }
@@ -38,7 +39,7 @@ class List extends React.Component{
 
     loadPosters(props) {
 
-        let page = props.page || 1
+        let page = props.page || 0
         let type = props.type || 'all'
         let title = props.title || ''
         let filter = { page, type, title }
@@ -53,8 +54,10 @@ class List extends React.Component{
             layout: type === 'all' ? '' : type,
             index: page,
             title: title
-        }).then((posters) => {
-            this.setState({ loading, filter, posters, inited })
+        }).then((data) => {
+            let posters = data.list
+            let total = data.total
+            this.setState({ loading, filter, total, posters, inited })
         }).catch((error) => {
             this.setState({ loading, filter, error })
         })
@@ -75,7 +78,7 @@ class List extends React.Component{
 
     render() {
 
-        let page = this.state.filter.page || 1
+        let page = this.state.filter.page || 0
         let type = this.state.filter.type || 'all'
         let title = this.state.filter.title || ''
         let { posters, loading, error } = this.state
@@ -125,7 +128,7 @@ class List extends React.Component{
                         <li className={style.listHead}>
                             <span className={style.itemTitle}>标题</span>
                             <span className={style.itemType}>类型</span>
-                            <span className={style.itemDate}>创建时间</span>
+                            <span className={style.itemDate}>修改时间</span>
                             <span className={style.itemOptBtns}>操作</span>
                         </li>
                         {posters.map((item, index) => {
@@ -135,7 +138,7 @@ class List extends React.Component{
                                         <a href={Config.CDNURL  + '/' + item.pathname} target="_blank">{item.title}</a>
                                     </div>
                                     <span className={style.itemType}>{item.layout === 'mobile' ? '移动端' : '桌面端'}</span>
-                                    <span className={style.itemDate}>{formatTime(item.createDate)}</span>
+                                    <span className={style.itemDate}>{item.updateDate || item.createDate}</span>
                                     <div className={style.itemOptBtns}>
                                         <a href={'#/edit/' + item.id} target="_blank"><Icon type="edit" /> 修改</a>
                                     </div>
