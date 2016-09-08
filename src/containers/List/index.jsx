@@ -81,11 +81,25 @@ class List extends React.Component{
         let { posters, loading, error } = this.state
 
         if (error) {
-            return <div className={style.listError}></div>
+            return (
+                <div className={style.listPage}>
+                    <Header type="list"/>
+                    <div className={style.pageContainer}>
+                        <div className={style.listError}></div>
+                    </div>
+                </div>
+            )
         }
 
         if (loading) {
-            return <div className={style.listLoading}></div>
+            return (
+                <div className={style.listPage}>
+                    <Header type="list"/>
+                    <div className={style.pageContainer}>
+                        <div className={style.listLoading}></div>
+                    </div>
+                </div>
+            )
         }
 
         return (
