@@ -92,16 +92,20 @@ body{
             return;
         }
 
-        if (href.indexOf('?') === -1) {
+        if (href.indexOf('token=') === -1) {
 
-            if (href.indexOf('#') === -1) {
-                href = href + '?token=' + token;
+            if (href.indexOf('?') === -1) {
+
+                if (href.indexOf('#') === -1) {
+                    href = href + '?token=' + token;
+                } else {
+                    href = href.replace('#', '?token=' + token + '#');
+                }
+
             } else {
-                href = href.replace('#', '?token=' + token + '#');
+                href = href.replace('?', '?token=' + token + '&');
             }
 
-        } else {
-            href = href.replace('?', '?token=' + token + '&');
         }
 
         link.setAttribute('href', href);
