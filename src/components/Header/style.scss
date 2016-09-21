@@ -17,6 +17,11 @@
     background-size: 50px 50px;
     // border: 1px solid #ddd;
     border-radius: 50%;
+    transform: rotate(0deg);
+    transition: transform 0.5s;
+}
+.logo:hover {
+    transform: rotate(180deg);
 }
 .header-btns{
     float: right;
@@ -58,13 +63,13 @@
     color: #fff;
     background-color: #2EAB63;
     border-right: 1px solid #2EAB63 - 20;
-    border-radius: 3px 0 0 3px; 
+    border-radius: 3px 0 0 3px;
 }
 .btn-preview{
     color: #fff;
     background-color: #2EAB63;
     margin-right: 5px;
-    border-radius: 0 3px 3px 0; 
+    border-radius: 0 3px 3px 0;
 }
 .btn-publish{
     color: #fff;
