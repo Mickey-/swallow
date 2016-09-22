@@ -81,15 +81,15 @@
 .listItems{
   margin: 15px auto 30px auto;
   list-style: none;
-  &:hover{
-    background: #efefef;
-  }
   span{
     color: #888;
   }
   li{
     height: 40px;
     border-bottom: 1px solid #f1f2f3;
+    &:hover{
+      background: #efefef;
+    }
     span, a{
       display: inline-block;
       height: 20px;
