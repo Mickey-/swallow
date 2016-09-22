@@ -81,6 +81,9 @@
 .listItems{
   margin: 15px auto 30px auto;
   list-style: none;
+  &:hover{
+    background: #efefef;
+  }
   span{
     color: #888;
   }
