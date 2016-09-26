@@ -68,16 +68,23 @@
 .btn-preview{
     color: #fff;
     background-color: #2EAB63;
-    margin-right: 5px;
     border-radius: 0 3px 3px 0;
 }
+.btn-liveview{
+    margin-left: 6px;
+    color: #fff;
+    background-color: #9b59b6;
+    border-radius: 3px;
+    &.disabled{
+        background-color: #ccc;
+        pointer-events: none;
+    }
+}
 .btn-publish{
+    margin-left: 6px;
     color: #fff;
     background-color: #3498DB;
     border-radius: 3px;
-    &:hover{
-        color: #fff;
-    }
 }
 
 .caption{

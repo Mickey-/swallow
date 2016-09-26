@@ -33,10 +33,11 @@ const copyPosterUrl = () => {
 
 }
 
-const showPubModal = (pathname) => {
+const showPubModal = (pathname, title = "发布成功") => {
 
     Modal.success({
-        'title': '发布成功',
+        'title': title,
+        'width': 620,
         'content': (
             <div className={style.copierBox}>
                 <input className={style.publicUrl} id="poster-url-field" defaultValue={config.CDNURL + "/" + pathname} />
@@ -67,6 +68,7 @@ export default class Header extends Component {
                         <button className={style.btnClear} onClick={() => this.__clear()}><Icon type="reload" /> 清空</button>
                         <button className={style.btnSave} onClick={() => this.__save()}><Icon type="save" /> 保存</button>
                         <button className={style.btnPreview} onClick={() => this.__preview()}><Icon type="eye-o" /> 预览</button>
+                        <button className={style.btnLiveview + ' ' + (!pageData.isPublish && style.disabled)} onClick={() => this.__liveview()}><Icon type="caret-circle-o-right" /> 在线查看</button>
                         <button className={style.btnPublish} onClick={() => this.__publish()}><Icon type="check" /> 发布</button>
                     </div>
                     <div className={style.caption}>
@@ -205,6 +207,13 @@ export default class Header extends Component {
             showNotification(e.msg || e.message || '发生错误', 'error')
             console.error(e)
         })
+
+    }
+
+    __liveview() {
+
+        let { pageData } = this.props
+        showPubModal(pageData.pathname, '活动页网址:')
 
     }
 

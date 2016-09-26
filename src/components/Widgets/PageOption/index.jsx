@@ -168,7 +168,7 @@ export default class LinkOption extends React.Component{
 
                     this.props.actions.updateBackground({ index, data: {
                         data: null,
-                        url: config.APIURL + '/api' + data.tempUrl,
+                        url:  data.releaseUrl, //config.APIURL + '/api' + data.tempUrl,
                         releaseUrl: data.releaseUrl,
                         uploading: 0
                     }})
