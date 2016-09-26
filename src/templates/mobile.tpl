@@ -165,6 +165,6 @@ body{
 
 }();
 </script>
-<%=statistics%>
+<%=statisticsCode%>
 </body>
 </html>

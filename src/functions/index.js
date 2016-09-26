@@ -142,6 +142,17 @@ export const formatTime = (timestamp, fmt = 'yyyy-MM-dd hh:mm:ss', ms = true) =>
 
 }
 
+const statisticsCode = `<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d4e872714ee07ec415d4c14cc4a4c172";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+`
+
 export const buildTemplate = (data, type = 'mobile', release = false) => {
 
     if (type === 'mobile') {
@@ -150,6 +161,7 @@ export const buildTemplate = (data, type = 'mobile', release = false) => {
         data.parseAppInnerLink = parseAppInnerLink
         data.release = release
         data.getBackgroundImageUrl = getBackgroundImageUrl
+        data.statisticsCode = data.statistics === '1' ? statisticsCode : ''
 
         return MobileTpl(data)
 
@@ -159,6 +171,8 @@ export const buildTemplate = (data, type = 'mobile', release = false) => {
         data.getTop = getBackgroundImageTop
         data.release = release
         data.getBackgroundImageUrl = getBackgroundImageUrl
+        data.statisticsCode = data.statistics === '1' ? statisticsCode : ''
+
         return PCTpl(data)
 
     }
