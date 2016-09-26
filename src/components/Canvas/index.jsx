@@ -213,13 +213,13 @@ export default class Canvas extends React.Component{
             })
         }
 
+        if ((keyCode === 46 || keyCode === 8) && !isInput) {
+            this.__deleteCurrentElement()
+        }
+
         if (keyCode === 8 && !isInput) {
             e.preventDefault()
             return false
-        }
-
-        if (keyCode === 46) {
-            this.__deleteCurrentElement()
         }
 
     }
