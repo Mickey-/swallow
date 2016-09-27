@@ -156,10 +156,6 @@ export default class LinkOption extends React.Component{
 
             uploadFile(file, {
 
-                // onprogress: (data) => {
-                //     console.log(data)
-                // },
-
                 onupload: (data) => {
 
                     if (!data) {
@@ -168,7 +164,7 @@ export default class LinkOption extends React.Component{
 
                     this.props.actions.updateBackground({ index, data: {
                         data: null,
-                        url:  data.releaseUrl, //config.APIURL + '/api' + data.tempUrl,
+                        url:  config.APIURL + '/api' + data.tempUrl,
                         releaseUrl: data.releaseUrl,
                         uploading: 0
                     }})

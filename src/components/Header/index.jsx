@@ -8,7 +8,7 @@ import * as config from '../../config.json'
 import Previewer from '../Previewer'
 import style from './style.scss'
 
-const showNotification = (msg, type="error") => {
+const showNotification = (msg, type = "error") => {
 
     let msgs = {
         'error': '错误',
@@ -35,14 +35,16 @@ const copyPosterUrl = () => {
 
 const showPubModal = (pathname, title = "发布成功") => {
 
+    let now = new Date().getTime()
+
     Modal.success({
         'title': title,
         'width': 620,
         'content': (
             <div className={style.copierBox}>
-                <input className={style.publicUrl} id="poster-url-field" defaultValue={config.CDNURL + "/" + pathname} />
+                <input className={style.publicUrl} id="poster-url-field" defaultValue={config.CDNURL + "/" + pathname + '?t=' + now} />
                 <a className={style.btnCopyUrl} onClick={() => copyPosterUrl()} href="javascript:void(0);" id="btn-copy-url">复制地址</a>
-                <a className={style.btnViewUrl} href={config.CDNURL + "/" + pathname} target="_blank">立即查看</a>
+                <a className={style.btnViewUrl} href={config.CDNURL + "/" + pathname + '?t=' + now} target="_blank">立即查看</a>
             </div>
         ),
         'okText': '好的'
@@ -103,6 +105,7 @@ export default class Header extends Component {
 
         let data = JSON.parse(JSON.stringify(this.props.pageData))
         let result = validatePageData(data)
+        let updatedBackground = []
 
         data.html = buildTemplate(data, data.layout, true)
 
@@ -116,13 +119,14 @@ export default class Header extends Component {
 
                 data = { ...data }
                 data.elements = JSON.stringify(data.elements)
-                data.background = JSON.stringify(data.background.map((item) => {
+                updatedBackground = data.background.map((item) => {
                     return { ...item, url: item.releaseUrl }
-                }))
+                })
+                data.background = JSON.stringify(updatedBackground)
 
                 IO.updatePoster(data.id, data).then((res) => {
-                    console.log(res)
                     actions.updatePageData({
+                        background: updatedBackground,
                         lastSaveTime: now,
                         tempFiles: []
                     })
@@ -138,13 +142,15 @@ export default class Header extends Component {
 
                 data = { ...data }
                 data.elements = JSON.stringify(data.elements)
-                data.background = JSON.stringify(data.background.map((item) => {
+                updatedBackground = data.background.map((item) => {
                     return { ...item, url: item.releaseUrl }
-                }))
+                })
+                data.background = JSON.stringify(updatedBackground)
 
                 IO.savePoster(data).then((res) => {
                     actions.updatePageData({
                         id: res.id,
+                        background: updatedBackground,
                         lastSaveTime: now,
                         tempFiles: []
                     })
@@ -172,7 +178,7 @@ export default class Header extends Component {
         let now = new Date().getTime()
         let data = JSON.parse(JSON.stringify(this.props.pageData))
         let result = validatePageData(data)
-        let backgrounds = data.background
+        let updatedBackground = []
 
         data.html = buildTemplate(data, data.layout, true)
 
@@ -191,21 +197,22 @@ export default class Header extends Component {
 
         data = { ...data }
         data.elements = JSON.stringify(data.elements)
-        data.background = JSON.stringify(data.background.map((item) => {
+        updatedBackground = data.background.map((item) => {
             return { ...item, url: item.releaseUrl }
-        }))
+        })
+        data.background = JSON.stringify(updatedBackground)
 
         let pathname = data.pathname
 
-        IO.publishPoster(data.id, data).then((data) => {
+        console.log(JSON.parse(data.background))
+
+        IO.publishPoster(data.id, data).then((res) => {
             actions.updatePageData({
+                background: updatedBackground,
                 lastSaveTime: now,
                 tempFiles: []
             })
             showPubModal(pathname)
-        }).catch((e) => {
-            showNotification(e.msg || e.message || '发生错误', 'error')
-            console.error(e)
         })
 
     }
