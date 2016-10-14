@@ -30,7 +30,7 @@ export default class LinkOption extends React.Component{
         let toggleIcon = !this.state.show ? <Icon type="up" /> : <Icon type="down" />
         let pageData = this.props.pageData
         let widgetClassNames = [style.widget]
-        let addBackgroundBtn = pageData.background.length < 10 ? <button onClick={() => this.__addBackground()} className={style.fullWidthBtn}><Icon type="picture" /> 增加背景图片</button> : null
+        let addBackgroundBtn = <button onClick={() => this.__addBackground()} className={style.fullWidthBtn}><Icon type="picture" /> 增加背景图片</button>
 
         let errors = this.props.errors || {}
 
@@ -121,10 +121,6 @@ export default class LinkOption extends React.Component{
     }
 
     __addBackground() {
-
-        if (this.props.pageData.background.length >= 10) {
-            return false
-        }
 
         this.props.actions.addBackground({
             'id': guid(),
