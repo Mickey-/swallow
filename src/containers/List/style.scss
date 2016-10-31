@@ -22,7 +22,7 @@
     display: block;
     box-sizing: border-box;
     float: left;
-    width: 33.333333%;
+    width: 25%;
     height: 32px;
     color: #999;
     font-size: 14px;
@@ -109,10 +109,15 @@
     color: #555;
   }
 }
+.attention{
+  float: left;
+  width: 70px;
+  padding-left: 20px;
+  margin-top: 10px;
+}
 .itemTitle{
   float: left;
   width: 600px;
-  padding-left: 20px;
 }
 .itemType{
   float: left;
@@ -127,3 +132,9 @@
   float: right;
   padding-right: 20px;
 }
+:global{
+  .anticon-star{
+    color: #57c5f7;
+  }
+}
+

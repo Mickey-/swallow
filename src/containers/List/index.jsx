@@ -24,7 +24,8 @@ class List extends React.Component{
             filter: {
                 page: 0,
                 type: 'all',
-                title: ''
+                title: '',
+                size: 30
             }
         }
     }
@@ -34,7 +35,7 @@ class List extends React.Component{
     }
 
     componentWillReceiveProps(props) {
-        this.loadPosters(props.location.query)
+        // this.loadPosters(props.location.query)
     }
 
     loadPosters(props) {
@@ -58,6 +59,10 @@ class List extends React.Component{
             let posters = data.list
             let total = data.total
             this.setState({ loading, filter, total, posters, inited })
+            this.props.actions.cacheListData({
+              'items': posters
+            })
+
         }).catch((error) => {
             this.setState({ loading, filter, error })
         })
@@ -69,6 +74,21 @@ class List extends React.Component{
         let filter = { ...this.state.filter }
         filter[propName] = propValue
         this.setState({ filter })
+        let obj
+        if (propName == 'type') {
+          obj = {
+            title : '',
+            type: propValue,
+            page: 0
+          }
+        }else{
+          obj = {
+            title : propValue,
+            type: '',
+            page: 0
+          }
+        }
+        this.loadPosters(obj)
 
     }
 
@@ -76,12 +96,72 @@ class List extends React.Component{
         location.hash = 'list?' + JSON2URL(this.state.filter)
     }
 
+    showConfirm(id) {
+
+      console.log(this.props)
+      let self = this
+
+      Modal.confirm({
+        title: '你确定要删除这条活动信息吗？',
+        content: '',
+        onOk: function() {
+
+          IO.deletePoster( id ).then((data) => {
+
+            if (data) {
+
+              self.props.actions.deletePoster({
+
+                'id': id
+
+              })
+
+            }
+
+          }).catch((error) => {
+          })
+
+        },
+        onCancel: function() {}
+      });
+
+    }
+
+    attentionStatus( id,attention ) {
+
+        if(attention){
+          attention = 0
+        }else{
+          attention = 1
+        }
+
+        IO.Attention( id, attention ).then((data) => {
+
+          if(data){
+
+            this.props.actions.updatePoster({
+
+              'id': id,
+              'item': {
+                'attention': attention
+              }
+
+            })
+          }
+
+
+        }).catch((error) => {
+
+        })
+    }
+
     render() {
 
         let page = this.state.filter.page || 0
         let type = this.state.filter.type || 'all'
         let title = this.state.filter.title || ''
-        let { posters, loading, error } = this.state
+        let { posters, loading, error, total } = this.state
+        let data = this.props.posters
 
         if (error) {
             return (
@@ -111,9 +191,10 @@ class List extends React.Component{
                 <div className={style.pageContainer}>
                     <div className={style.listFilter}>
                         <div className={style.listTypes}>
-                            <a className={type === 'all' && style.active} href={'#/list?title=' + title + '&type=all&page=' + page}>全部</a>
-                            <a className={type === 'mobile' && style.active} href={'#/list?title=' + title + '&type=mobile&page=' + page}>移动端</a>
-                            <a className={type === 'pc' && style.active} href={'#/list?title=' + title + '&type=pc&page=' + page}>桌面端</a>
+                            <a className={type === 'all' && style.active} onClick = { () => this.changeFilter('type','all') }  >全部</a>
+                            <a className={type === 'mobile' && style.active} onClick = { () => this.changeFilter('type','mobile') }  >移动端</a>
+                            <a className={type === 'pc' && style.active} onClick = { () => this.changeFilter('type','pc') }  >桌面端</a>
+                            <a className={type === 'star' && style.active} onClick = { () => this.changeFilter('type','star') }  >关注</a>
                         </div>
                         <div className={style.listSearcher}>
                             <button onClick={(e) => this.applyFilter()} className={style.listSearchBtn}><Icon type="search" /> 搜索</button>
@@ -126,19 +207,26 @@ class List extends React.Component{
                     </div>
                     <ul className={style.listItems}>
                         <li className={style.listHead}>
+                            <span className={style.attention}>关注</span>
                             <span className={style.itemTitle}>标题</span>
                             <span className={style.itemType}>类型</span>
                             <span className={style.itemDate}>修改时间</span>
                             <span className={style.itemOptBtns}>操作</span>
                         </li>
-                        {posters.map((item, index) => {
+                        {data.map((item, index) => {
                             return (
                                 <li key={index + 1}>
+                                    <div className={style.attention} >
+                                        <Icon onClick={ () => this.attentionStatus( item.id, item.attention)} type={ item.attention ? 'star' : 'star-o'} />
+                                    </div>
                                     <div className={style.itemTitle} >
                                         <a href={Config.CDNURL  + '/' + item.pathname} target="_blank">{item.title}</a>
                                     </div>
                                     <span className={style.itemType}>{item.layout === 'mobile' ? '移动端' : '桌面端'}</span>
                                     <span className={style.itemDate}>{item.updateDate || item.createDate}</span>
+                                    <div className={style.itemOptBtns}>
+                                        <a onClick={ () => this.showConfirm(item.id) }><Icon type="delete" /> 删除</a>
+                                    </div>
                                     <div className={style.itemOptBtns}>
                                         <a href={'#/edit/' + item.id} target="_blank"><Icon type="edit" /> 修改</a>
                                     </div>
@@ -146,6 +234,7 @@ class List extends React.Component{
                             )
                         })}
                     </ul>
+
                 </div>
             </div>
         )
@@ -155,7 +244,9 @@ class List extends React.Component{
 }
 
  const mapStateToProps = (state) => {
-    return {posters: state.posters}
+    return {
+      posters: state.list.posters.items
+    }
  }
 
  const mapDispatchToProps = (dispatch) => {

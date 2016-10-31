@@ -12,7 +12,8 @@ const API = {
     'get_poster'    : SERVER + '/poster/detail',
     'pub_poster'    : SERVER + '/poster/publish',
     'updata_poster' : SERVER + '/poster/update',
-    'delete_poster' : SERVER + '/poster'
+    'delete_poster' : SERVER + '/poster',
+    'attention' : SERVER + '/poster/attention'
 }
 
 const IO_ERRORS = {
@@ -70,7 +71,7 @@ const fetch = (url, data = {}, method = 'GET', timeout = 5000) => {
                     })
 
                 }
-  
+
             }
 
         }
@@ -150,10 +151,15 @@ export const updatePoster = (id, params) => {
 
 export const deletePoster = (id) => {
 
-    return fetch(API.delete_poster, { id }, 'DELETE')
+    return fetch(API.delete_poster + '/' + id, { id }, 'DELETE')
 
 }
 
+export const Attention = ( id,attention ) => {
+
+    return fetch(API.attention, { id, attention }, 'POST')
+
+}
 
 
 

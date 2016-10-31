@@ -1,8 +1,8 @@
 import React from 'react'
 import { Icon, Switch, Select, notification } from 'antd'
-import { guid } from '../../../functions'
+import { guid, configJson } from '../../../functions'
 import { uploadFile } from '../../../io'
-import * as config from '../../../config.json'
+// import * as config from '../../../config.json'
 import style from '../../RightSidebar/style.scss'
 
 const Option = Select.Option
@@ -160,7 +160,7 @@ export default class LinkOption extends React.Component{
 
                     this.props.actions.updateBackground({ index, data: {
                         data: null,
-                        url:  config.APIURL + '/api' + data.tempUrl,
+                        url:  configJson().APIURL + '/api' + data.tempUrl,
                         releaseUrl: data.releaseUrl,
                         uploading: 0
                     }})

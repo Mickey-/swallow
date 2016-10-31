@@ -147,7 +147,7 @@ var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
   hm.src = "//hm.baidu.com/hm.js?d4e872714ee07ec415d4c14cc4a4c172";
-  var s = document.getElementsByTagName("script")[0]; 
+  var s = document.getElementsByTagName("script")[0];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>
@@ -177,4 +177,12 @@ export const buildTemplate = (data, type = 'mobile', release = false) => {
 
     }
 
+}
+
+export const configJson = () => {
+
+    return {
+      "APIURL": "http://" + location.host,
+      "CDNURL": "http://fecdn.59store.com/activity"
+    }
 }

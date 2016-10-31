@@ -37,7 +37,6 @@ class Editor extends React.Component{
 
                 data.elements = JSON.parse(data.elements)
                 data.background = JSON.parse(data.background)
-
                 this.props.actions.updatePageData(data)
 
                 this.setState({
@@ -78,6 +77,8 @@ class Editor extends React.Component{
 }
 
 const mapStateToProps = (state) => {
+
+  console.log(state)
 
     return {
         pageData: state.editor.pageData,
