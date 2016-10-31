@@ -24,8 +24,7 @@ class List extends React.Component{
             filter: {
                 page: 0,
                 type: 'all',
-                title: '',
-                size: 30
+                title: ''
             }
         }
     }
@@ -155,6 +154,23 @@ class List extends React.Component{
         })
     }
 
+    listPages(page){
+
+      IO.getPosters({
+          layout: '',
+          index: page - 1,
+          title: ''
+      }).then((data) => {
+
+          this.props.actions.cacheListData({
+            'items': data.list
+          })
+
+      })
+
+
+    }
+
     render() {
 
         let page = this.state.filter.page || 0
@@ -162,7 +178,6 @@ class List extends React.Component{
         let title = this.state.filter.title || ''
         let { posters, loading, error, total } = this.state
         let data = this.props.posters
-
         if (error) {
             return (
                 <div className={style.listPage}>
@@ -234,7 +249,9 @@ class List extends React.Component{
                             )
                         })}
                     </ul>
-
+                    <div className={style.page}>
+                        { total ? <Pagination onChange={ (current) => this.listPages(current) } pageSize={20} total={total} /> : null}
+                    </div>
                 </div>
             </div>
         )
