@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import * as listActions from '../../actions/list'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Table, Icon, Modal, Pagination, message } from 'antd'
+import { Table, Icon, Modal, Pagination, message, Switch } from 'antd'
 import style from './style.scss'
 import Header from '../../components/Header'
 import { formatTime, JSON2URL } from '../../functions'
@@ -93,7 +93,7 @@ class List extends React.Component{
             title : '',
             type: this.state.filter.type,
             page: 0,
-            attention:propValue
+            attention:propValue ? 1 : ''
           }
         }else{
           obj = {
@@ -196,6 +196,17 @@ class List extends React.Component{
         let attention = this.state.filter.attention || ''
         let { posters, loading, error, total } = this.state
         let data = this.props.posters
+        let self = this
+
+        function onChange(checked){
+
+          if(checked){
+            self.changeFilter('attention','1')
+          }else{
+            self.changeFilter('attention','')
+          }
+
+        }
         if (error) {
             return (
                 <div className={style.listPage}>
@@ -228,11 +239,7 @@ class List extends React.Component{
                             <a className={type === 'mobile' && style.active} onClick = { () => this.changeFilter('type','mobile') }  >移动端</a>
                             <a className={type === 'pc' && style.active} onClick = { () => this.changeFilter('type','pc') }  >桌面端</a>
                         </div>
-                        <div className={style.listType}>
-                            <a className={attention === '' && style.active} onClick = { () => this.changeFilter('attention','') }  >全部</a>
-                            <a className={attention === '1' && style.active} onClick = { () => this.changeFilter('attention','1') }  >关注</a>
-                            <a className={attention === '0' && style.active} onClick = { () => this.changeFilter('attention','0') }  >不关注</a>
-                        </div>
+                        <div className={style.attentionType}>关注：<Switch defaultChecked={ attention ? true :false}  onChange={ onChange } /></div>
                         <div className={style.listSearcher}>
                             <button onClick={(e) => this.applyFilter()} className={style.listSearchBtn}><Icon type="search" /> 搜索</button>
                             <input
