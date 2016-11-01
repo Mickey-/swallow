@@ -24,7 +24,8 @@ class List extends React.Component{
             filter: {
                 page: 0,
                 type: 'all',
-                title: ''
+                title: '',
+                attention:''
             }
         }
     }
@@ -42,26 +43,32 @@ class List extends React.Component{
         let page = props.page || 0
         let type = props.type || 'all'
         let title = props.title || ''
-        let filter = { page, type, title }
+        let attention = props.attention || ''
+        let filter = { page, type, title, attention }
         let inited = true
         let loading = false
 
         this.setState({
             loading: true
         })
-
+        if(props.attention === '0'){
+          attention = 0
+        }
         IO.getPosters({
             layout: type === 'all' ? '' : type,
             index: page,
-            title: title
+            title: title,
+            attention: attention
         }).then((data) => {
             let posters = data.list
             let total = data.total
+            if(props.attention == 0){
+              attention = 0
+            }
             this.setState({ loading, filter, total, posters, inited })
             this.props.actions.cacheListData({
               'items': posters
             })
-
         }).catch((error) => {
             this.setState({ loading, filter, error })
         })
@@ -78,13 +85,22 @@ class List extends React.Component{
           obj = {
             title : '',
             type: propValue,
-            page: 0
+            page: 0,
+            attention: this.state.filter.attention
+          }
+        }else if(propName == 'attention'){
+          obj = {
+            title : '',
+            type: this.state.filter.type,
+            page: 0,
+            attention:propValue
           }
         }else{
           obj = {
             title : propValue,
             type: '',
-            page: 0
+            page: 0,
+            attention:''
           }
         }
         this.loadPosters(obj)
@@ -154,12 +170,13 @@ class List extends React.Component{
         })
     }
 
-    listPages(page){
+    listPages(page, type, attention){
 
       IO.getPosters({
-          layout: '',
+          layout: type === 'all' ? '' : type,
           index: page - 1,
-          title: ''
+          title: '',
+          attention: attention
       }).then((data) => {
 
           this.props.actions.cacheListData({
@@ -176,6 +193,7 @@ class List extends React.Component{
         let page = this.state.filter.page || 0
         let type = this.state.filter.type || 'all'
         let title = this.state.filter.title || ''
+        let attention = this.state.filter.attention || ''
         let { posters, loading, error, total } = this.state
         let data = this.props.posters
         if (error) {
@@ -209,7 +227,11 @@ class List extends React.Component{
                             <a className={type === 'all' && style.active} onClick = { () => this.changeFilter('type','all') }  >全部</a>
                             <a className={type === 'mobile' && style.active} onClick = { () => this.changeFilter('type','mobile') }  >移动端</a>
                             <a className={type === 'pc' && style.active} onClick = { () => this.changeFilter('type','pc') }  >桌面端</a>
-                            <a className={type === 'star' && style.active} onClick = { () => this.changeFilter('type','star') }  >关注</a>
+                        </div>
+                        <div className={style.listType}>
+                            <a className={attention === '' && style.active} onClick = { () => this.changeFilter('attention','') }  >全部</a>
+                            <a className={attention === '1' && style.active} onClick = { () => this.changeFilter('attention','1') }  >关注</a>
+                            <a className={attention === '0' && style.active} onClick = { () => this.changeFilter('attention','0') }  >不关注</a>
                         </div>
                         <div className={style.listSearcher}>
                             <button onClick={(e) => this.applyFilter()} className={style.listSearchBtn}><Icon type="search" /> 搜索</button>
@@ -250,7 +272,7 @@ class List extends React.Component{
                         })}
                     </ul>
                     <div className={style.page}>
-                        { total ? <Pagination onChange={ (current) => this.listPages(current) } pageSize={20} total={total} /> : null}
+                        { total ? <Pagination onChange={ (current ) => this.listPages(current, this.state.filter.type, this.state.filter.attention) } pageSize={20} total={total} /> : null}
                     </div>
                 </div>
             </div>
