@@ -22,7 +22,7 @@
     display: block;
     box-sizing: border-box;
     float: left;
-    width: 33.333333%;
+    width: 33.33%;
     height: 32px;
     color: #999;
     font-size: 14px;
@@ -41,6 +41,15 @@
       background-color: #f9f9fa;
     }
   }
+}
+.attentionType{
+    margin-left: 30px;
+    width: 200px;
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: bold;
 }
 .listSearcher{
   float: right;
@@ -109,10 +118,15 @@
     color: #555;
   }
 }
+.attention{
+  float: left;
+  width: 70px;
+  padding-left: 20px;
+  margin-top: 10px;
+}
 .itemTitle{
   float: left;
   width: 600px;
-  padding-left: 20px;
 }
 .itemType{
   float: left;
@@ -127,3 +141,12 @@
   float: right;
   padding-right: 20px;
 }
+:global{
+  .anticon-star{
+    color: #57c5f7;
+  }
+}
+.page{
+  float: right;
+}
+
