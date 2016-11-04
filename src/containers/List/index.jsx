@@ -34,26 +34,21 @@ class List extends React.Component{
         this.loadPosters(this.props.location.query)
     }
 
-    componentWillReceiveProps(props) {
-        // this.loadPosters(props.location.query)
-    }
-
+    //请求列表数据
     loadPosters(props) {
 
-        let page = props.page || 0
-        let type = props.type || 'all'
-        let title = props.title || ''
-        let attention = props.attention || ''
-        let filter = { page, type, title, attention }
-        let inited = true
-        let loading = false
+        const page = props.page || 0
+        const type = props.type || 'all'
+        const title = props.title || ''
+        const attention = props.attention || ''
+        const filter = { page, type, title, attention }
+        const inited = true
+        const loading = false
 
         this.setState({
             loading: true
         })
-        if(props.attention === '0'){
-          attention = 0
-        }
+
         IO.getPosters({
             layout: type === 'all' ? '' : type,
             index: page,
@@ -62,9 +57,6 @@ class List extends React.Component{
         }).then((data) => {
             let posters = data.list
             let total = data.total
-            if(props.attention == 0){
-              attention = 0
-            }
             this.setState({ loading, filter, total, posters, inited })
             this.props.actions.cacheListData({
               'items': posters
@@ -75,6 +67,7 @@ class List extends React.Component{
 
     }
 
+    //筛选列表数据
     changeFilter(propName, propValue) {
 
         let filter = { ...this.state.filter }
@@ -107,13 +100,14 @@ class List extends React.Component{
 
     }
 
+    //搜索列表数据
     applyFilter() {
         location.hash = 'list?' + JSON2URL(this.state.filter)
     }
 
+    //删除列表确认弹窗
     showConfirm(id) {
 
-      console.log(this.props)
       let self = this
 
       Modal.confirm({
@@ -124,24 +118,21 @@ class List extends React.Component{
           IO.deletePoster( id ).then((data) => {
 
             if (data) {
-
               self.props.actions.deletePoster({
-
                 'id': id
-
               })
-
             }
 
           }).catch((error) => {
+
           })
 
-        },
-        onCancel: function() {}
+        }
       });
 
     }
 
+    //关注和取消关注状态
     attentionStatus( id,attention ) {
 
         if(attention){
@@ -155,21 +146,20 @@ class List extends React.Component{
           if(data){
 
             this.props.actions.updatePoster({
-
               'id': id,
               'item': {
                 'attention': attention
               }
-
             })
-          }
 
+          }
 
         }).catch((error) => {
 
         })
     }
 
+    //分页获取列表数据
     listPages(page, type, attention){
 
       IO.getPosters({
@@ -190,14 +180,16 @@ class List extends React.Component{
 
     render() {
 
-        let page = this.state.filter.page || 0
-        let type = this.state.filter.type || 'all'
-        let title = this.state.filter.title || ''
-        let attention = this.state.filter.attention || ''
-        let { posters, loading, error, total } = this.state
-        let data = this.props.posters
+        const page = this.state.filter.page || 0
+        const type = this.state.filter.type || 'all'
+        const title = this.state.filter.title || ''
+        const attention = this.state.filter.attention || ''
+        const { posters, loading, error, total } = this.state
+        const data = this.props.posters
+
         let self = this
 
+        //筛选关注与否的开关
         function onChange(checked){
 
           if(checked){
@@ -207,6 +199,7 @@ class List extends React.Component{
           }
 
         }
+
         if (error) {
             return (
                 <div className={style.listPage}>
