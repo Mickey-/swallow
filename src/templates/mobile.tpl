@@ -112,6 +112,44 @@ body{
 
     });
  
+    if (browser === 'APP' && typeof HXSJSBridge !== 'undefined') {
+
+        HXSJSBridge.setNavigationButton({
+            type: 'share',
+            title: null,
+            image: null,
+            link: null
+        });
+
+        HXSJSBridge.setShareInfo({
+            type: [1,2,3,4],
+            title: '<%=shareTitle%>' || document.title,
+            content: '<%=shareDesc%>' ? '<%=shareDesc%>'.substr(0, 45) : '暂无介绍',
+            image: '<%=shareImage%>',
+            link: location.href.replace('token=' + token, '')
+        });
+
+    } else if (browser === 'WEIXIN' && typeof wx !== 'undefined') {
+
+        wx.ready(function() {
+
+            wx.onMenuShareAppMessage({
+                title: '<%=shareTitle%>' || document.title,
+                desc: '<%=shareDesc%>' ? '<%=shareDesc%>'.desc.substr(0, 45) : '暂无介绍',
+                imgUrl: '<%=shareImage%>',
+                link: location.href.replace('token=' + token, '')
+            });
+
+            wx.onMenuShareTimeline({
+                title: '<%=shareDesc%>' ? '<%=shareDesc%>'.desc.substr(0, 45) : document.title,
+                imgUrl: '<%=shareImage%>',
+                link: location.href.replace('token=' + token, '')
+            });
+
+        });
+
+    }
+
     function $get(name){
 
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
