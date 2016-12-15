@@ -135,13 +135,13 @@ body{
 
             wx.onMenuShareAppMessage({
                 title: '<%=shareTitle%>' || document.title,
-                desc: '<%=shareDesc%>' ? '<%=shareDesc%>'.desc.substr(0, 45) : '暂无介绍',
+                desc: '<%=shareDesc%>' ? '<%=shareDesc%>'.substr(0, 45) : '暂无介绍',
                 imgUrl: '<%=shareImage%>',
                 link: location.href.replace('token=' + token, '')
             });
 
             wx.onMenuShareTimeline({
-                title: '<%=shareDesc%>' ? '<%=shareDesc%>'.desc.substr(0, 45) : document.title,
+                title: '<%=shareDesc%>' ? '<%=shareDesc%>'.substr(0, 45) : document.title,
                 imgUrl: '<%=shareImage%>',
                 link: location.href.replace('token=' + token, '')
             });
