@@ -141,7 +141,7 @@ body{
             });
 
             wx.onMenuShareTimeline({
-                title: '<%=shareDesc%>' ? '<%=shareDesc%>'.substr(0, 45) : document.title,
+                title: '<%=shareTitle%>' || document.title,
                 imgUrl: '<%=shareImage%>',
                 link: location.href.replace('token=' + token, '')
             });
