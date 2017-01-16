@@ -1,0 +1,40 @@
+.element-list{
+    max-height: 200px;
+    overflow: auto;
+    margin: -10px -20px 0 -20px;
+    li{
+        height: 40px;
+        padding: 0 20px;
+        line-height: 40px;
+        overflow: hidden;
+        border-bottom: 1px solid #eee;
+        cursor: default;
+        &.active-item{
+            color: #fff;
+            background-color: #3498DB;
+        }
+    }
+}
+.element-list{
+    &::-webkit-scrollbar {
+        width: 10px;
+        background-color: #eee;
+    }
+    &::-webkit-scrollbar-thumb {
+        height: 5px;
+        background-color: #ccc;
+        border-radius: 5px;
+    }
+}
+.btn-remove-element{
+    float: right;
+    &:hover{
+        color: #e00;
+    }
+}
+.link-url{
+    padding: 0 10px;
+    font-size: 12px;
+    word-wrap: break-word;
+    word-break: break-all;
+}

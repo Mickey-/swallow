@@ -1,0 +1,152 @@
+.listPage{
+  background-color: #fff;
+}
+.pageContainer{
+  width: 1080px;
+  margin: 30px auto;
+  overflow: hidden;
+  background-color: #fff;
+}
+.listFilter{
+  height: 32px;
+  overflow: hidden;
+}
+.listTypes{
+  float: left;
+  width: 300px;
+  height: 32px;
+  border: 1px solid #f1f2f3;
+  overflow: hidden;
+  border-radius: 3px;
+  a{
+    display: block;
+    box-sizing: border-box;
+    float: left;
+    width: 33.33%;
+    height: 32px;
+    color: #999;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 32px;
+    background-color: #fff;
+    border-right: 1px solid #f1f2f3;
+    &:last-child{
+      border-right: none;
+    }
+    &:hover{
+      background-color: #fbfbfc;
+    }
+    &.active{
+      background-color: #f9f9fa;
+    }
+  }
+}
+.attentionType{
+    margin-left: 30px;
+    width: 200px;
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.listSearcher{
+  float: right;
+  height: 32px;
+}
+.btnClearSearchInput{
+  display: block;
+  float: right;
+  height: 14px;
+  margin: 9px 15px 0 0;
+  color: #999;
+  cursor: pointer;
+  &:hover{
+    color: #c00;
+  }
+}
+.listSearchInput{
+  float: right;
+  width: 140px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #f1f2f3;
+  border-radius: 3px 0 0 3px;
+}
+.listSearchBtn{
+  float: right;
+  width: 60px;
+  height: 32px;
+  border: 1px solid #f1f2f3;
+  border-left: none;
+  border-radius: 0 3px 3px 0;
+  cursor: pointer;
+  &:hover{
+    background-color: #fbfbfc;
+  }
+}
+
+.listItems{
+  margin: 15px auto 30px auto;
+  list-style: none;
+  span{
+    color: #888;
+  }
+  li{
+    height: 40px;
+    border-bottom: 1px solid #f1f2f3;
+    &:hover{
+      background: #efefef;
+    }
+    span, a{
+      display: inline-block;
+      height: 20px;
+      margin-top: 10px;
+      overflow: hidden;
+      line-height: 20px;
+    }
+    a:hover{
+      text-decoration: underline;
+    }
+  }
+}
+.listHead{
+  font-weight: bold;
+  border-top: solid 2px #f1f2f3;
+  span{
+    color: #555;
+  }
+}
+.attention{
+  float: left;
+  width: 70px;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+.itemTitle{
+  float: left;
+  width: 600px;
+}
+.itemType{
+  float: left;
+  width: 120px;
+  overflow: hidden;
+}
+.itemDate{
+  float: left;
+  width: 150px;
+}
+.itemOptBtns{
+  float: right;
+  padding-right: 20px;
+}
+:global{
+  .anticon-star{
+    color: #57c5f7;
+  }
+}
+.page{
+  float: right;
+}
+
